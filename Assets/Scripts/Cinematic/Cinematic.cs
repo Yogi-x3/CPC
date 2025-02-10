@@ -113,6 +113,9 @@ public class Cinematic : MonoBehaviour
     public Transform popeStartPoint;
     public GameObject agent;
     public Animator popeAnimation;
+    public AudioSource popeAudio;
+    public AudioClip[] popeSounds;
+    private bool isBreathing;
 
     public delegate void TestDelegate();
     public TestDelegate methodToCall;
@@ -164,6 +167,7 @@ public class Cinematic : MonoBehaviour
         }
 
         SinBars();
+        PopeBreathing();
         
     }
 
@@ -245,7 +249,7 @@ public class Cinematic : MonoBehaviour
 
         }
         blackBars.SetBool("isCinematic", cinematicMode);
-        movementScript.enabled = !cinematicMode;
+        //movementScript.enabled = !cinematicMode;
         curtainAnimator.SetBool("InBooth", isConfessing);
 
     }
@@ -850,6 +854,30 @@ public class Cinematic : MonoBehaviour
 
             sinTimeBar.enabled = false;
             sinBarHolder.SetActive(false);
+        }
+    }
+
+    public void PopeBreathing()
+    {
+        float breathingThreshold = 15f;
+        float breathingDistance = Vector3.Distance(player.transform.position, agent.transform.position);
+
+        float breathingVolume = 1.0f / (breathingDistance - 3f);
+        if (breathingDistance < breathingThreshold)
+        {
+            
+            if (!isBreathing) 
+            {
+                popeAudio.clip = popeSounds[0];
+                popeAudio.Play();
+                isBreathing = true;
+            }
+            popeAudio.volume = breathingVolume;
+        }
+        else if (breathingDistance > breathingThreshold)
+        {
+            popeAudio.Stop();
+            isBreathing = false;
         }
     }
 }

@@ -14,7 +14,12 @@ public class FirstPersonMovement : MonoBehaviour
     float horizontalInput;
     float verticalInput;
 
+    public AudioSource playerAudio;
+    public AudioClip[] playerSounds;
+    public bool isWalking;
+    public Cinematic cinematicScript;
     public Animator camAnim;
+
 
     Vector3 movementDir;
 
@@ -30,10 +35,15 @@ public class FirstPersonMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MyInput();
-        SpeedControl();
+        if (cinematicScript.cinematicMode == false)
+        {
+            MyInput();
 
-        rb.drag = groundDrag;
+            rb.drag = groundDrag;
+
+        }
+        
+        SpeedControl();
 
     }
 
@@ -54,14 +64,6 @@ public class FirstPersonMovement : MonoBehaviour
 
         rb.AddForce(movementDir.normalized * moveSpeed * 10f, ForceMode.Force);
 
-        //if (verticalInput != 0 || horizontalInput != 0)
-        //{
-        //    camAnim.SetBool("IsWalking", true);
-        //}
-        //else
-        //{
-        //    camAnim.SetBool("IsWalking", false);
-        //}
     }
 
     private void SpeedControl()
@@ -72,6 +74,28 @@ public class FirstPersonMovement : MonoBehaviour
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+        }
+
+        if (cinematicScript.cinematicMode)
+        {
+            rb.velocity = new Vector3(0, 0, 0);
+        }
+
+
+        if(rb.velocity.magnitude > 1f)
+        {
+            if (!isWalking)
+            {
+                playerAudio.clip = playerSounds[0];
+                playerAudio.Play();
+                isWalking = true;
+            }
+        }
+        else if (rb.velocity.magnitude < 1f)
+        {
+            playerAudio.Stop();
+            isWalking = false;
+
         }
     }
 }
