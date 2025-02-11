@@ -38,12 +38,12 @@ public class FirstPersonMovement : MonoBehaviour
         if (cinematicScript.cinematicMode == false)
         {
             MyInput();
-
+            SpeedControl();
             rb.drag = groundDrag;
 
         }
-        
-        SpeedControl();
+
+        //Steps();
 
     }
 
@@ -76,13 +76,19 @@ public class FirstPersonMovement : MonoBehaviour
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
         }
 
-        if (cinematicScript.cinematicMode)
-        {
-            rb.velocity = new Vector3(0, 0, 0);
-        }
 
 
-        if(rb.velocity.magnitude > 1f)
+    }
+
+    private void Steps()
+    {
+
+        //if (cinematicScript.cinematicMode && !cinematicScript.isConfessing)
+        //{
+        //    rb.velocity = new Vector3(0, 0, 0);
+        //}
+
+        if (rb.velocity.magnitude > 1f)
         {
             if (!isWalking)
             {

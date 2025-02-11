@@ -23,6 +23,10 @@ public class Cinematic : MonoBehaviour
     public float FOVwaitTime = 1f;
     public GameObject dialogueHolder;
     public GameObject priestDialogueHolder;
+    public ParticleSystem redFire;
+    public ParticleSystem orangeFire;
+    public ParticleSystem yellowFire;
+    private float fireScale;
 
     [Header("Endings")]
     private bool isAbsolved;
@@ -69,7 +73,7 @@ public class Cinematic : MonoBehaviour
 
     [Header("Checks")]
     public bool isMoving;
-    private bool isConfessing;
+    public bool isConfessing;
     public bool boothOpen;
     public bool canEnter;
     private bool glowOn;
@@ -105,6 +109,8 @@ public class Cinematic : MonoBehaviour
 
     [Header("Pope")]
     public GameObject Pope;
+    public Renderer popeBody;
+    public Texture2D[] popeTex;
     public Transform popeHead;
     public GameObject popeBooth;
     public GameObject outerBooth;
@@ -249,8 +255,8 @@ public class Cinematic : MonoBehaviour
 
         }
         blackBars.SetBool("isCinematic", cinematicMode);
-        //movementScript.enabled = !cinematicMode;
         curtainAnimator.SetBool("InBooth", isConfessing);
+        movementScript.enabled = !cinematicMode;
 
     }
 
@@ -276,6 +282,7 @@ public class Cinematic : MonoBehaviour
     {
         if (player.transform.position == booth.transform.position)
         {
+            
             isConfessing = true;
             canEnter = false;
             d = 2;
@@ -546,8 +553,7 @@ public class Cinematic : MonoBehaviour
 
             storedSin = sinMeter;
             sinLerpTimer = 0f;
-
-            dtrack++;
+            
 
             float calcuatedSin = 10 * (1 / sinTimer);
 
@@ -665,7 +671,7 @@ public class Cinematic : MonoBehaviour
         {
 
 
-            if (sinMeter >= 50f)
+            if (actualSin >= 50f)
             {
                 Damnation();
             }
@@ -675,7 +681,7 @@ public class Cinematic : MonoBehaviour
                 Absolved();
             }
 
-            if (0f < sinMeter && sinMeter < 50f)
+            if (0f < actualSin && actualSin < 50f)
             {
                 if (confessedMurder)
                 {
@@ -742,6 +748,7 @@ public class Cinematic : MonoBehaviour
 
         cells = Mathf.Lerp(1.7f, maxCell, cellTimer);
         boothModel.material.SetFloat("_Cell_size", cells);
+        popeBody.material.SetTexture("_Texture2D", popeTex[6]);
 
         if (cells < maxCell)
         {
@@ -838,9 +845,9 @@ public class Cinematic : MonoBehaviour
             }
 
 
-            if (sinMeter < 0.0f)
+            if (actualSin < 0.0f)
             {
-                sinMeter = 0.0f;
+                actualSin = 0.0f;
             }
 
             if (sinLerpTimer < 1f)
@@ -855,6 +862,9 @@ public class Cinematic : MonoBehaviour
             sinTimeBar.enabled = false;
             sinBarHolder.SetActive(false);
         }
+
+        FireFX();
+        PriestEmotions();
     }
 
     public void PopeBreathing()
@@ -878,6 +888,67 @@ public class Cinematic : MonoBehaviour
         {
             popeAudio.Stop();
             isBreathing = false;
+        }
+    }
+
+    public void FireFX()
+    {
+        fireScale = 0.02f * sinMeter;
+        float redScale = 10 * fireScale;
+        float orangeScale = 8 * fireScale;
+        float yellowScale = 4 * fireScale;
+
+        redFire.startSize = redScale;
+        redFire.startLifetime = redScale;
+
+        orangeFire.startSize = orangeScale;
+        orangeFire.startLifetime = orangeScale;
+
+        yellowFire.startSize = yellowScale;
+        yellowFire.startLifetime = yellowScale;
+
+    }
+
+    public void PriestEmotions()
+    {
+        if (!dialogueOver)
+        {
+
+
+            if (sinMeter < 10)
+            {
+                popeBody.material.SetTexture("_Texture2D", popeTex[0]);
+            }
+
+            if (sinMeter > 10 && sinMeter < 25)
+            {
+
+                if (confessedMurder == true)
+                {
+                    popeBody.material.SetTexture("_Texture2D", popeTex[3]);
+                }
+                else
+                {
+                    popeBody.material.SetTexture("_Texture2D", popeTex[1]);
+                }
+            }
+
+            if (sinMeter > 25 && sinMeter < 50)
+            {
+                if (confessedMurder == true)
+                {
+                    popeBody.material.SetTexture("_Texture2D", popeTex[4]);
+                }
+                else
+                {
+                    popeBody.material.SetTexture("_Texture2D", popeTex[2]);
+                }
+            }
+
+            if (sinMeter > 50)
+            {
+                popeBody.material.SetTexture("_Texture2D", popeTex[5]);
+            }
         }
     }
 }
