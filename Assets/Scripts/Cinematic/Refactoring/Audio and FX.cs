@@ -5,6 +5,7 @@ using UnityEngine;
 public class AudioandFX : MonoBehaviour
 {
     public Cinematic cinematicScript;
+    public CinematicDialogue dialogueScript;
     private float glowTimer;
 
     public ParticleSystem redFire;
@@ -37,7 +38,10 @@ public class AudioandFX : MonoBehaviour
     public AudioClip[] popeSounds;
     private bool isBreathing;
 
-
+    void Start()
+    {
+        policeLight.enabled = false;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -47,7 +51,7 @@ public class AudioandFX : MonoBehaviour
     public void PriestEmotions()
     {
         //so dmanation can ovveride all
-        if (!cinematicScript.dialogueOver)
+        if (!dialogueScript.dialogueOver)
         {
 
             //happy
@@ -133,13 +137,13 @@ public class AudioandFX : MonoBehaviour
         }
     }
 
-    public void EndingAudio(int aud)
+    public void EndingAudio(int track)
     {
-        if (cinematicScript.dialogueOver == true)
+        if (dialogueScript.dialogueOver == true)
         {
             if (!audioPlaying)
             {
-                audio.clip = audioclips[aud];
+                audio.clip = audioclips[track];
                 if (audio.clip != null)
                 {
                     audioPlaying = true;

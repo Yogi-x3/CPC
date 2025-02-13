@@ -10,35 +10,12 @@ public class CinematicDialogue : MonoBehaviour
 
     public Cinematic cinematicScript;
 
-    [Header("Cinematic")]
-    public bool cinematicMode;
-    public float sinMeter;
-    private float actualSin;
-    private float storedSin;
-    public float sinLerpTimer;
-
-    public float sinTimer;
-
     public GameObject dialogueHolder;
 
 
     [Header("Endings")]
-    private bool isAbsolved;
+    public bool isAbsolved;
     public bool dialogueOver = false;
-
-
-    [Header("Booth")]
-    public GameObject booth;
-
-    [Header("Player")]
-
-    public GameObject player;
-
-
-
-    [Header("Checks")]
-    public bool isConfessing;
-    public bool canEnter;
 
 
     [Header("PopeDialogue")]
@@ -48,7 +25,7 @@ public class CinematicDialogue : MonoBehaviour
 
     private int dtrack;
 
-    private int d = 0;
+    public int d = 0;
     public TMP_Text dialogueObject;
 
     [Header("PlayerDialogue")]
@@ -60,20 +37,16 @@ public class CinematicDialogue : MonoBehaviour
     private int gdTrack;
     private int bdTrack;
 
-    private int gd = 0;
-    private int bd = 0;
+    public int gd = 0;
+    public int bd = 0;
     public TMP_Text goodText;
     public TMP_Text badText;
 
-    private bool confessedMurder;
-    private bool waitForSpeech;
+    public bool confessedMurder;
+    public bool waitForSpeech;
 
-    [Header("Pope")]
-    public GameObject Pope;
-    public Transform popeHead;
-    public float popeStartTime;
-    public Transform popeStartPoint;
-    public Animator popeAnimation;
+    public GameObject player;
+
 
 
 
@@ -85,12 +58,6 @@ public class CinematicDialogue : MonoBehaviour
     {
         dtrack = 1;
         confessedMurder = false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void DialogueManager()
@@ -166,25 +133,11 @@ public class CinematicDialogue : MonoBehaviour
         cinematicScript.cinematicMode = false;
     }
 
-    public void Confessing()
-    {
-        if (player.transform.position == booth.transform.position)
-        {
-
-            cinematicScript.isConfessing = true;
-            cinematicScript.canEnter = false;
-            d = 2;
-
-        }
-
-
-    }
-
-    public void GoodOption()
+    public void DialogueOption()
     {
         var button = EventSystem.current.currentSelectedGameObject;
 
-        if (!isConfessing)
+        if (!cinematicScript.isConfessing)
         {
             if (button.tag == "Good")
             {
@@ -196,7 +149,7 @@ public class CinematicDialogue : MonoBehaviour
             }
         }
 
-        if (isConfessing)
+        if (cinematicScript.isConfessing)
         {
             StartCoroutine(SpeechDelay());
 
@@ -230,17 +183,17 @@ public class CinematicDialogue : MonoBehaviour
                 //gloating
                 if (d == 11 && confessedMurder)
                 {
+                    dialogueOver = true;
                     cinematicScript.LeaveBooth();
-
                 }
             }
 
             //Calculate sin
-            storedSin = sinMeter;
-            sinLerpTimer = 0f;
+            cinematicScript.storedSin = cinematicScript.sinMeter;
+            cinematicScript.sinLerpTimer = 0f;
 
 
-            float calcuatedSin = 10 * (1 / sinTimer);
+            float calcuatedSin = 10 * (1 / cinematicScript.sinTimer);
 
             float roundedSin = Mathf.Round(calcuatedSin);
 
@@ -248,12 +201,12 @@ public class CinematicDialogue : MonoBehaviour
 
             if (button.tag == "Good")
             {
-                actualSin -= sinClamp;
+                cinematicScript.actualSin -= sinClamp;
             }
 
             if (button.tag == "Bad")
             {
-                actualSin += sinClamp;
+                cinematicScript.actualSin += sinClamp;
             }
 
             //progress dialogue
@@ -277,8 +230,8 @@ public class CinematicDialogue : MonoBehaviour
                 //dont agree to confess
                 if (d == 6)
                 {
-                    cinematicScript.LeaveBooth();
                     dialogueOver = true;
+                    cinematicScript.LeaveBooth();
                 }
             }
 
@@ -288,7 +241,7 @@ public class CinematicDialogue : MonoBehaviour
                 isAbsolved = true;
                 dialogueOver = true;
                 //Stay in booth for Damnation
-                if (sinMeter <= 50)
+                if (cinematicScript.sinMeter <= 50)
                 {
                     cinematicScript.LeaveBooth();
                 }
