@@ -31,7 +31,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Image
+    path: Upper Black Bar
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -47,7 +47,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Image (1)
+    path: Lower Black Bar
   m_FloatCurves: []
   m_PPtrCurves: []
   m_SampleRate: 60
@@ -58,7 +58,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 83635035
+      path: 1209416591
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -67,7 +67,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2763502510
+      path: 928202093
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -114,7 +114,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.x
-    path: Image
+    path: Upper Black Bar
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -135,7 +135,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.y
-    path: Image
+    path: Upper Black Bar
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -156,7 +156,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.z
-    path: Image
+    path: Upper Black Bar
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -177,7 +177,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.x
-    path: Image (1)
+    path: Lower Black Bar
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -198,7 +198,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.y
-    path: Image (1)
+    path: Lower Black Bar
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -219,7 +219,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.z
-    path: Image (1)
+    path: Lower Black Bar
     classID: 224
     script: {fileID: 0}
     flags: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Cinematic : MonoBehaviour
 {
@@ -10,7 +11,6 @@ public class Cinematic : MonoBehaviour
     public Animator blackBars;
     public bool cinematicMode;
     public float interactionDistance = 5f;
-    private float glowTimer;
     public float sinMeter;
     private float actualSin;
     private float storedSin;
@@ -20,43 +20,33 @@ public class Cinematic : MonoBehaviour
     public Image sinTimeBar;
     public float sinTimer;
     private float FOVtimer;
-    public float FOVwaitTime = 1f;
     public GameObject dialogueHolder;
     public GameObject priestDialogueHolder;
-    public ParticleSystem redFire;
-    public ParticleSystem orangeFire;
-    public ParticleSystem yellowFire;
-    private float fireScale;
 
     [Header("Endings")]
     private bool isAbsolved;
     public GameObject smokeObject;
     public ParticleSystem smoke;
     private float cellTimer;
-    private float maxCell = 5;
+    //private float maxCell = 5;
     private float cells;
     public GameObject distortionPlane;
     public Renderer distortion;
-    public float distortionSize;
+    //public float distortionSize;
     public GameObject endScreen;
     public TMP_Text endScreenText;
-    private bool dialogueOver = false;
+    public bool dialogueOver = false;
     public Light policeLight;
-    private bool redlight = true;
-    private bool lightChanging;
-    public AudioSource audio;
-    public AudioClip[] audioclips;
+
     private int aud;
     private bool audioPlaying;
 
     [Header("Booth")]
-    public GameObject[] enterPanel;
     public bool kickedOut;
     public GameObject curtain;
     public Animator curtainAnimator;
     private bool curtainAnimating;
     public Renderer boothModel;
-    public Renderer[] glowModel;
     public Transform[] Openings;
     public Transform boothOpening;
     public GameObject window;
@@ -76,8 +66,6 @@ public class Cinematic : MonoBehaviour
     public bool isConfessing;
     public bool boothOpen;
     public bool canEnter;
-    private bool glowOn;
-    private bool glowRun;
 
 
     [Header("PopeDialogue")]
@@ -127,6 +115,9 @@ public class Cinematic : MonoBehaviour
     public TestDelegate methodToCall;
     public bool delegateCoroutineRunning;
 
+    public AudioandFX FXscript;
+    public CinematicDialogue dialogueScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -136,7 +127,6 @@ public class Cinematic : MonoBehaviour
         booth = GameObject.FindGameObjectWithTag("Slot");
         curtain = GameObject.FindGameObjectWithTag("Curtain");
         curtainAnimator = curtain.GetComponent<Animator>();
-        glowTimer = 0f;
         sinMeter = 0f;
         dtrack = 1;
         confessedMurder = false;
@@ -145,7 +135,6 @@ public class Cinematic : MonoBehaviour
         endScreen.SetActive(false);
         policeLight.enabled = false;
         audioPlaying = false;
-        audio.Stop();
     }
 
     // Update is called once per frame
@@ -163,7 +152,7 @@ public class Cinematic : MonoBehaviour
 
         ClosestBooth();
 
-        DialgoueManager();
+        DialogueManager();
 
         PopeWalk();
 
@@ -173,19 +162,19 @@ public class Cinematic : MonoBehaviour
         }
 
         SinBars();
-        PopeBreathing();
         
     }
 
     void CinematicMode()
     {
+        //interact with Priest
         RaycastHit hit;
+        float rayDistance = 100f;
 
-
-        Debug.DrawRay(cam.transform.position, cam.transform.forward * 100f, Color.red);
+        Debug.DrawRay(cam.transform.position, cam.transform.forward * rayDistance, Color.red);
         if (boothOpen == false)
         {
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 100f))
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, rayDistance))
             {
 
                 if (hit.collider.CompareTag("Pope"))
@@ -201,12 +190,13 @@ public class Cinematic : MonoBehaviour
             }
         }
 
+        //displaying text if FOV is 80
         if (cam.fieldOfView != 80)
         {
             dialogueHolder.SetActive(false);
             priestDialogueHolder.SetActive(false);
         }
-        else if (!kickedOut)
+        else
         {
             dialogueHolder.SetActive(true);
             priestDialogueHolder.SetActive(true);
@@ -216,20 +206,11 @@ public class Cinematic : MonoBehaviour
 
         if (cinematicMode)
         {
+            //priest looks at player
             Vector3 targetPostition = new Vector3(cam.transform.position.x, agent.transform.position.y, cam.transform.position.z);
             agent.transform.LookAt(targetPostition);
 
-            blackBars.SetBool("isCinematic", true);
-            popeAnimation.SetBool("isWalking", false);
-
-            FOVtimer += Time.deltaTime;
-            cam.fieldOfView = Mathf.Lerp(60, 80, FOVtimer);
-
-            if (FOVtimer > FOVwaitTime)
-            {
-                FOVtimer = FOVwaitTime;
-            }
-
+            //set player minimum distance from priest
             float cinematicDistance = 7f;
 
             if (Vector3.Distance(player.transform.position, agent.transform.position) < cinematicDistance)
@@ -237,16 +218,20 @@ public class Cinematic : MonoBehaviour
                 player.transform.position = player.transform.position + (Pope.transform.forward);
             }
 
+            //Zoom FOV when in interaction
+            FOVtimer += Time.deltaTime;
+            float FOVwaitTime = 1f;
+
+            if (FOVtimer > FOVwaitTime)
+            {
+                FOVtimer = FOVwaitTime;
+            }
 
         }
 
-        if (!cinematicMode)
+        else
         {
-            popeAnimation.SetBool("isWalking", true);
-            cam.fieldOfView = 60;
             FOVtimer -= 2 * Time.deltaTime;
-
-            cam.fieldOfView = Mathf.Lerp(60, 80, FOVtimer);
 
             if (FOVtimer < 0)
             {
@@ -254,8 +239,11 @@ public class Cinematic : MonoBehaviour
             }
 
         }
+        
+        cam.fieldOfView = Mathf.Lerp(60, 80, FOVtimer);
         blackBars.SetBool("isCinematic", cinematicMode);
         curtainAnimator.SetBool("InBooth", isConfessing);
+        popeAnimation.SetBool("isWalking", !cinematicMode);
         movementScript.enabled = !cinematicMode;
 
     }
@@ -292,7 +280,7 @@ public class Cinematic : MonoBehaviour
 
     }
 
-    public void DialgoueManager()
+    public void DialogueManager()
     {
 
         if (dtrack == 1)
@@ -350,39 +338,36 @@ public class Cinematic : MonoBehaviour
 
     public void PopeWalk()
     {
-        //float distCovered = (Time.time - popeStartTime) * moveSpeed * 0.75f;
-        //float fractionOfJourney = distCovered / popeJourneyDistance;
+
+        var priestMovement = agent.GetComponent<PriestMovement>();
+        priestMovement.enabled = false;
+
+        float popeMoveSpeed = movementScript.moveSpeed * 0.25f;
+        float distCovered = (Time.time - popeStartTime) * popeMoveSpeed;
+        float fractionOfJourney = distCovered / popeJourneyDistance;
+
+        Vector3 targetPostition = new Vector3(player.transform.position.x, Pope.transform.position.y, player.transform.position.z);
+        Pope.transform.LookAt(targetPostition);
 
         if (boothOpen)
         {
-            var priestMovement = agent.GetComponent<PriestMovement>();
-            priestMovement.enabled = false;
-            float distCovered = (Time.time - popeStartTime) * moveSpeed * 0.75f;
-            float fractionOfJourney = distCovered / popeJourneyDistance;
+            var targetLocation = outerBooth.transform.position;
+            Pope.transform.position = Vector3.Lerp(popeStartPoint.position, targetLocation, fractionOfJourney);
 
-
-            Pope.transform.position = Vector3.Lerp(popeStartPoint.position, outerBooth.transform.position, fractionOfJourney);
-            Vector3 targetPostition = new Vector3(player.transform.position.x, Pope.transform.position.y, player.transform.position.z);
-            Pope.transform.LookAt(targetPostition);
         }
 
         if (isMoving)
         {
-            float distCovered = (Time.time - popeStartTime) * moveSpeed * 0.75f;
-            float fractionOfJourney = distCovered / popeJourneyDistance;
-
-
-
-            Pope.transform.position = Vector3.Lerp(outerBooth.transform.position, popeBooth.transform.position, fractionOfJourney);
-            Vector3 targetPostition = new Vector3(window.transform.position.x, Pope.transform.position.y, window.transform.position.z);
-            Pope.transform.LookAt(targetPostition);
+            var targetLocation = popeBooth.transform.position;
+            Pope.transform.position = Vector3.Lerp(outerBooth.transform.position, targetLocation, fractionOfJourney);
         }
     }
 
     public void PlayerWalk()
     {
         d = 17;
-        float distCovered = (Time.time - startTime) * moveSpeed;
+        float automaticMoveSpeed = movementScript.moveSpeed / 3;
+        float distCovered = (Time.time - startTime) * automaticMoveSpeed;
         float fractionOfJourney = distCovered / journeyDistance;
 
 
@@ -395,6 +380,7 @@ public class Cinematic : MonoBehaviour
     {
         startTime = Time.time;
         journeyDistance = Vector3.Distance(boothOpening.position, booth.transform.position);
+        boothOpen = false;
     }
 
     public void ClosestBooth()
@@ -424,50 +410,20 @@ public class Cinematic : MonoBehaviour
             smokeObject = GameObject.FindGameObjectWithTag("Smoke");
             smoke = smokeObject.GetComponent<ParticleSystem>();
 
-
-            if (!dialogueOver)
-            {
-                smoke.Stop();
-            }
+            smoke.Stop();
 
         }
 
-        OpenBoothVFX();
+        FXscript.OpenBoothVFX();
 
     }
 
-
-    void OpenBoothVFX()
-    {
-        if (boothOpen == true && !isMoving)
-        {
-            foreach (GameObject panel in enterPanel)
-            {
-                panel.SetActive(true);
-                if (glowRun == false)
-                {
-                    StartCoroutine(GlowEffect());
-                }
-            }
-        }
-        else
-        {
-            foreach (GameObject panel in enterPanel)
-            {
-                panel.SetActive(false);
-            }
-            glowModel[0].material.SetFloat("_Opacity", 0f);
-            glowModel[1].material.SetFloat("_Opacity", 0f);
-        }
-    }
 
     void KickOut()
     {
-        Vector3 m_NewForce = new Vector3(-100.0f, 0.0f, 0.0f);
-        playerRb.AddForce(m_NewForce, ForceMode.Impulse);
+        Vector3 kickOutForce = new Vector3(-100.0f, 0.0f, 0.0f);
+        playerRb.AddForce(kickOutForce, ForceMode.Impulse);
         cinematicMode = false;
-
-
     }
 
 
@@ -480,6 +436,7 @@ public class Cinematic : MonoBehaviour
         gd++;
         bd++;
         boothOpen = true;
+        
         popeStartTime = Time.time;
         popeJourneyDistance = Vector3.Distance(popeStartPoint.position, outerBooth.transform.position);
 
@@ -494,63 +451,62 @@ public class Cinematic : MonoBehaviour
         delegateCoroutineRunning = false;
     }
 
-    public IEnumerator GlowEffect()
-    {
-        glowModel[0].material.SetFloat("_Opacity", 0.1f * glowTimer);
-        glowModel[1].material.SetFloat("_Opacity", 0.1f * glowTimer);
-
-        glowRun = true;
-        if (glowTimer == 0)
-        {
-            glowOn = true;
-        }
-        if (glowTimer >= 10f)
-        {
-            glowOn = false;
-        }
-        if (glowOn == true)
-        {
-            glowTimer += 1f;
-            yield return new WaitForSeconds(0.2f);
-        }
-        else if (glowOn == false)
-        {
-            glowTimer -= 1f;
-            yield return new WaitForSeconds(0.2f);
-
-        }
-
-        glowRun = false;
-    }
-
     public void GoodOption()
     {
-
+        var button = EventSystem.current.currentSelectedGameObject;
+        
         if (!isConfessing)
         {
-            Yes();
+            if (button.tag == "Good")
+            {
+                Yes();
+            }
+            if (button.tag == "Bad") 
+            {
+                No();
+            }
         }
-        else
+        
+        if (isConfessing)
         {
             StartCoroutine(SpeechDelay());
-            if (d == 13 && confessedMurder)
+
+            if (button.tag == "Good")
             {
-                dtrack = 2;
-            }
-            else
-            {
-                dtrack = 1;
+                //track one unless confessing to murder
+                if (d == 13 && confessedMurder)
+                {
+                    dtrack = 2;
+                }
+                else
+                {
+                    dtrack = 1;
+                }
+                //Skipping over "and nothig else" repeats
+                if (d == 8 || d == 9)
+                {
+                    d = 10;
+                    gd = 9;
+                    bd = 9;
+                }
             }
 
-
-            //Skipping over "and nothig else"
-            if (d == 8 || d == 9)
+            if (button.tag == "Bad")
             {
-                d = 10;
-                gd = 9;
-                bd = 9;
+                //confessing to murder
+                if (d == 10)
+                {
+                    confessedMurder = true;
+                }
+                //gloating
+                if (d == 11 && confessedMurder)
+                {
+                    LeaveBooth();
+
+                }
             }
 
+            //Calculate sin
             storedSin = sinMeter;
             sinLerpTimer = 0f;
             
@@ -561,17 +517,48 @@ public class Cinematic : MonoBehaviour
 
             float sinClamp = Mathf.Clamp(roundedSin, 1, 10);
 
-            actualSin -= sinClamp;
+            if (button.tag == "Good")
+            {
+                actualSin -= sinClamp;
+            }
 
+            if (button.tag == "Bad")
+            {
+                actualSin += sinClamp;
+            }
+
+            //progress dialogue
             gd++;
             bd++;
             d++;
 
+            if (button.tag == "Bad")
+            {
+                //if bad option, check whether pope dialgoue is empty
+                if (dialogue3[d] == "")
+                {
+                    dtrack = 2;
+                }
+
+                if (dialogue3[d] == "" && dialogue2[d] == "")
+                {
+                    dtrack = 1;
+                }
+
+                //dont agree to confess
+                if (d == 6)
+                {
+                    LeaveBooth();
+                    dialogueOver = true;
+                }
+            }
+
+            //End of dialgoue
             if (d == 16)
             {
-
                 isAbsolved = true;
                 dialogueOver = true;
+                //Stay in booth for Damnation
                 if (sinMeter <= 50)
                 {
                     LeaveBooth();
@@ -579,82 +566,12 @@ public class Cinematic : MonoBehaviour
             }
         }
 
-    }
-
-    public void BadOption()
-    {
-
-
-        if (!isConfessing)
-        {
-            No();
-        }
-        else
-        {
-            StartCoroutine(SpeechDelay());
-
-            if (d == 10)
-            {
-                confessedMurder = true;
-            }
-
-            if (d == 11 && confessedMurder)
-            {
-                LeaveBooth();
-
-            }   
-
-            storedSin = sinMeter;
-            sinLerpTimer = 0f;
-
-            dtrack++;
-
-            float calcuatedSin = 10 * (1 / sinTimer);
-
-            float roundedSin = Mathf.Round(calcuatedSin);
-
-            float sinClamp = Mathf.Clamp(roundedSin, 1, 10);
-
-            actualSin += sinClamp;
-
-            gd++;
-            bd++;
-            d++;
-
-
-            //Check if the next dialogiue option is empty
-            if (dialogue3[d] == "")
-            {
-                dtrack = 2;
-            }
-
-            if (dialogue3[d] == "" && dialogue2[d] == "")
-            {
-                dtrack = 1;
-            }
-
-            if (d == 6)
-            {
-                LeaveBooth();
-                dialogueOver = true;
-            }
-
-            if (d == 16)
-            {
-                isAbsolved = true;
-                dialogueOver = true;
-                if (sinMeter <= 50)
-                {
-                    LeaveBooth();
-                }
-            }
-
-        }
     }
 
     public void LeaveBooth()
     {
-        d = 17;
+        int blankDialogue = 17;
+        d = blankDialogue;
         kickedOut = true;
         if (!delegateCoroutineRunning)
         {
@@ -669,8 +586,6 @@ public class Cinematic : MonoBehaviour
 
         if (isAbsolved == true)
         {
-
-
             if (actualSin >= 50f)
             {
                 Damnation();
@@ -694,12 +609,12 @@ public class Cinematic : MonoBehaviour
             }
         }
 
-        if (!isAbsolved)
+        else
         {
             Guilt();
         }
 
-        Audio();
+        FXscript.EndingAudio(aud);
 
     }
 
@@ -715,9 +630,9 @@ public class Cinematic : MonoBehaviour
 
         policeLight.enabled = true;
         endScreenText.text = "POLICE";
-        if (!lightChanging)
+        if (!FXscript.lightChanging)
         {
-            StartCoroutine(ChangeLight());
+            StartCoroutine(FXscript.ChangeLight());
         }
         aud = 1;
         CutToBlack();
@@ -743,18 +658,19 @@ public class Cinematic : MonoBehaviour
         aud = 4;
         distortionPlane.SetActive(true);
         smoke.Play();
-        distortionSize = Mathf.Lerp(0, 1, cellTimer);
+        
+        float maxCell = 5f;
+        float distortionSize = Mathf.Lerp(0, 1, cellTimer);
         distortion.material.SetFloat("_HeatDistortion", distortionSize);
 
         cells = Mathf.Lerp(1.7f, maxCell, cellTimer);
         boothModel.material.SetFloat("_Cell_size", cells);
+        
         popeBody.material.SetTexture("_Texture2D", popeTex[6]);
 
         if (cells < maxCell)
         {
             cellTimer += Time.deltaTime / 20;
-
-            Debug.Log(cellTimer);
         }
 
         if (cells == maxCell)
@@ -777,43 +693,6 @@ public class Cinematic : MonoBehaviour
         }
     }
 
-    public IEnumerator ChangeLight()
-    {
-        lightChanging = true;
-        redlight = !redlight;
-
-        if (redlight == true)
-        {
-            policeLight.color = Color.red;
-        }
-
-        if (redlight == false)
-        {
-            policeLight.color = Color.blue;
-        }
-
-        yield return new WaitForSeconds(1f);
-
-        lightChanging = false;
-
-    }
-
-    public void Audio()
-    {
-        if (dialogueOver == true)
-        {
-            if (!audioPlaying)
-            {
-
-                audio.clip = audioclips[aud];
-                if (audio.clip != null)
-                {
-                    audioPlaying = true;
-                    audio.Play();
-                }
-            }
-        }
-    }
 
     public IEnumerator SpeechDelay()
     {
@@ -863,92 +742,8 @@ public class Cinematic : MonoBehaviour
             sinBarHolder.SetActive(false);
         }
 
-        FireFX();
-        PriestEmotions();
+        FXscript.FireFX();
+        FXscript.PriestEmotions();
     }
 
-    public void PopeBreathing()
-    {
-        float breathingThreshold = 15f;
-        float breathingDistance = Vector3.Distance(player.transform.position, agent.transform.position);
-
-        float breathingVolume = 1.0f / (breathingDistance - 3f);
-        if (breathingDistance < breathingThreshold)
-        {
-            
-            if (!isBreathing) 
-            {
-                popeAudio.clip = popeSounds[0];
-                popeAudio.Play();
-                isBreathing = true;
-            }
-            popeAudio.volume = breathingVolume;
-        }
-        else if (breathingDistance > breathingThreshold)
-        {
-            popeAudio.Stop();
-            isBreathing = false;
-        }
-    }
-
-    public void FireFX()
-    {
-        fireScale = 0.02f * sinMeter;
-        float redScale = 10 * fireScale;
-        float orangeScale = 8 * fireScale;
-        float yellowScale = 4 * fireScale;
-
-        redFire.startSize = redScale;
-        redFire.startLifetime = redScale;
-
-        orangeFire.startSize = orangeScale;
-        orangeFire.startLifetime = orangeScale;
-
-        yellowFire.startSize = yellowScale;
-        yellowFire.startLifetime = yellowScale;
-
-    }
-
-    public void PriestEmotions()
-    {
-        if (!dialogueOver)
-        {
-
-
-            if (sinMeter < 10)
-            {
-                popeBody.material.SetTexture("_Texture2D", popeTex[0]);
-            }
-
-            if (sinMeter > 10 && sinMeter < 25)
-            {
-
-                if (confessedMurder == true)
-                {
-                    popeBody.material.SetTexture("_Texture2D", popeTex[3]);
-                }
-                else
-                {
-                    popeBody.material.SetTexture("_Texture2D", popeTex[1]);
-                }
-            }
-
-            if (sinMeter > 25 && sinMeter < 50)
-            {
-                if (confessedMurder == true)
-                {
-                    popeBody.material.SetTexture("_Texture2D", popeTex[4]);
-                }
-                else
-                {
-                    popeBody.material.SetTexture("_Texture2D", popeTex[2]);
-                }
-            }
-
-            if (sinMeter > 50)
-            {
-                popeBody.material.SetTexture("_Texture2D", popeTex[5]);
-            }
-        }
-    }
 }

@@ -23,6 +23,8 @@ TagManager:
   - Slot
   - Curtain
   - Smoke
+  - Good
+  - Bad
   layers:
   - Default
   - TransparentFX

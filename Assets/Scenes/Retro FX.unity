@@ -1921,7 +1921,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 818435b5f12017948a9aba8bbcc7701a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 8
+  moveSpeed: 9
   orientation: {fileID: 728732045}
   groundDrag: 0
   playerAudio: {fileID: 728732050}
@@ -2194,8 +2194,8 @@ GameObject:
   - component: {fileID: 822580303}
   - component: {fileID: 822580302}
   m_Layer: 5
-  m_Name: BadOption1
-  m_TagString: Untagged
+  m_Name: Bad Option
+  m_TagString: Bad
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2266,7 +2266,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1544572712}
         m_TargetAssemblyTypeName: Cinematic, Assembly-CSharp
-        m_MethodName: BadOption
+        m_MethodName: GoodOption
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17425,8 +17425,8 @@ GameObject:
   - component: {fileID: 1159570125}
   - component: {fileID: 1159570124}
   m_Layer: 5
-  m_Name: Good Option 1
-  m_TagString: Untagged
+  m_Name: Good Option
+  m_TagString: Good
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17557,7 +17557,7 @@ GameObject:
   - component: {fileID: 1167123091}
   - component: {fileID: 1167123090}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Lower Black Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32416,6 +32416,7 @@ GameObject:
   - component: {fileID: 1544572708}
   - component: {fileID: 1544572707}
   - component: {fileID: 1544572712}
+  - component: {fileID: 1544572713}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -32552,7 +32553,6 @@ MonoBehaviour:
   sinBarHolder: {fileID: 1778678605}
   sinTimeBar: {fileID: 1625156721}
   sinTimer: 0
-  FOVwaitTime: 1
   dialogueHolder: {fileID: 1456469061}
   priestDialogueHolder: {fileID: 1959795903}
   redFire: {fileID: 1141858632}
@@ -32562,9 +32562,9 @@ MonoBehaviour:
   smoke: {fileID: 0}
   distortionPlane: {fileID: 1803461443}
   distortion: {fileID: 1803461446}
-  distortionSize: 0
   endScreen: {fileID: 1290800785}
   endScreenText: {fileID: 451397636}
+  dialogueOver: 0
   policeLight: {fileID: 1787631038}
   audio: {fileID: 862020390}
   audioclips:
@@ -32592,7 +32592,7 @@ MonoBehaviour:
   cam: {fileID: 963194227}
   player: {fileID: 728732041}
   playerRb: {fileID: 728732047}
-  moveSpeed: 3
+  moveSpeed: 9
   movementScript: {fileID: 728732049}
   isMoving: 0
   isConfessing: 0
@@ -32733,6 +32733,9 @@ MonoBehaviour:
   - 
   goodText: {fileID: 223442261}
   badText: {fileID: 155444707}
+  buttons:
+  - {fileID: 1159570122}
+  - {fileID: 822580300}
   Pope: {fileID: 2133986736}
   popeBody: {fileID: 1931661558}
   popeTex:
@@ -32754,6 +32757,56 @@ MonoBehaviour:
   popeSounds:
   - {fileID: 8300000, guid: 0d124a7662da12a4382a59c174dd4387, type: 3}
   delegateCoroutineRunning: 0
+  FXscript: {fileID: 1544572713}
+--- !u!114 &1544572713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544572706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f207d21aea523c4bac882b48734f6ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cinematicScript: {fileID: 1544572712}
+  dialogueHolder: {fileID: 1456469061}
+  priestDialogueHolder: {fileID: 1959795903}
+  redFire: {fileID: 1141858632}
+  orangeFire: {fileID: 1285182032}
+  yellowFire: {fileID: 1258417228}
+  policeLight: {fileID: 1787631038}
+  lightChanging: 0
+  audio: {fileID: 862020390}
+  audioclips:
+  - {fileID: 8300000, guid: 554ecc74efa1df64b881eec402cfca0e, type: 3}
+  - {fileID: 8300000, guid: eebddab6f0f6a5e468dd8cd9840ad359, type: 3}
+  - {fileID: 8300000, guid: 6ec22a624f8b4ae4c901091b8d16392f, type: 3}
+  - {fileID: 8300000, guid: 5d2bff5c247b48c4fa6a50ee2dd75793, type: 3}
+  - {fileID: 8300000, guid: d9f5a1346f2c7924fa8ab926f3894f3d, type: 3}
+  enterPanel:
+  - {fileID: 390422143}
+  - {fileID: 1759878515}
+  glowModel:
+  - {fileID: 441063969}
+  - {fileID: 949325050}
+  player: {fileID: 728732041}
+  isMoving: 0
+  boothOpen: 0
+  popeTex:
+  - {fileID: 2800000, guid: b1a8731ee71f51e429786271549da22e, type: 3}
+  - {fileID: 2800000, guid: 33636a6838946eb478b754ac94c456c5, type: 3}
+  - {fileID: 2800000, guid: 646bbd574a8a019499e0ff83c2aa0f93, type: 3}
+  - {fileID: 2800000, guid: 05e24ad63bea4bd4d9726d4f2cdddcc9, type: 3}
+  - {fileID: 2800000, guid: 4352527d3c0401d4e9a0785d87ffda93, type: 3}
+  - {fileID: 2800000, guid: 8dfe94dd61e8f8c45a9203d33168c9dd, type: 3}
+  - {fileID: 2800000, guid: ab741acace8f00949b6a6ced51092e0f, type: 3}
+  popeBody: {fileID: 1931661558}
+  agent: {fileID: 332614542}
+  popeAudio: {fileID: 2133986738}
+  popeSounds:
+  - {fileID: 8300000, guid: 0d124a7662da12a4382a59c174dd4387, type: 3}
 --- !u!1 &1569004909
 GameObject:
   m_ObjectHideFlags: 0
@@ -33404,7 +33457,7 @@ GameObject:
   - component: {fileID: 1691520907}
   - component: {fileID: 1691520906}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Upper Black Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
