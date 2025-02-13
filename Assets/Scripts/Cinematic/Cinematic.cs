@@ -22,20 +22,6 @@ public class Cinematic : MonoBehaviour
     private float FOVtimer;
     public GameObject priestDialogueHolder;
 
-    [Header("Endings")]
-    public GameObject smokeObject;
-    public ParticleSystem smoke;
-    private float cellTimer;
-    private float cells;
-    public GameObject distortionPlane;
-    public Renderer distortion;
-    public GameObject endScreen;
-    public TMP_Text endScreenText;
-    public bool smokePlaying = false;
-
-    private int aud;
-    private bool audioPlaying;
-
     [Header("Booth")]
     public bool kickedOut;
     public GameObject curtain;
@@ -64,7 +50,6 @@ public class Cinematic : MonoBehaviour
     [Header("Pope")]
     public GameObject Pope;
     public Renderer popeBody;
-    public Texture2D[] popeTex;
     public Transform popeHead;
     public GameObject popeBooth;
     public GameObject outerBooth;
@@ -84,6 +69,7 @@ public class Cinematic : MonoBehaviour
     public AudioandFX FXscript;
     public CinematicDialogue dialogueScript;
     public FirstPersonMovement movementScript;
+    public Endings endingScript;
 
     // Start is called before the first frame update
     void Start()
@@ -95,9 +81,6 @@ public class Cinematic : MonoBehaviour
         curtain = GameObject.FindGameObjectWithTag("Curtain");
         curtainAnimator = curtain.GetComponent<Animator>();
         sinMeter = 0f;
-        cells = 1.7f;
-        distortionPlane.SetActive(false);
-        endScreen.SetActive(false);
     }
 
     // Update is called once per frame
@@ -118,11 +101,6 @@ public class Cinematic : MonoBehaviour
         dialogueScript.DialogueManager();
 
         PopeWalk();
-
-        if (dialogueScript.dialogueOver == true)
-        {
-            Endings();
-        }
 
         SinBars();
         
@@ -294,14 +272,6 @@ public class Cinematic : MonoBehaviour
             booth = GameObject.FindGameObjectWithTag("Slot");
             curtain = GameObject.FindGameObjectWithTag("Curtain");
             curtainAnimator = curtain.GetComponent<Animator>();
-            smokeObject = GameObject.FindGameObjectWithTag("Smoke");
-            smoke = smokeObject.GetComponent<ParticleSystem>();
-
-            if (dialogueScript.dialogueOver == false)
-            {
-                smoke.Stop();
-            }
-
         }
 
         FXscript.OpenBoothVFX();
@@ -311,6 +281,8 @@ public class Cinematic : MonoBehaviour
 
     void KickOut()
     {
+        int blankDialogue = 17;
+        dialogueScript.d = blankDialogue;
         Vector3 kickOutForce = new Vector3(-100.0f, 0.0f, 0.0f);
         playerRb.AddForce(kickOutForce, ForceMode.Impulse);
         cinematicMode = false;
@@ -343,8 +315,7 @@ public class Cinematic : MonoBehaviour
 
     public void LeaveBooth()
     {
-        int blankDialogue = 17;
-        dialogueScript.d = blankDialogue;
+
         kickedOut = true;
         if (!delegateCoroutineRunning)
         {
@@ -352,123 +323,6 @@ public class Cinematic : MonoBehaviour
         }
         dialogueScript.dialogueHolder.SetActive(false);
         isConfessing = false;
-    }
-
-    public void Endings()
-    {
-
-        if (dialogueScript.isAbsolved == true)
-        {
-            if (actualSin >= 50f)
-            {
-                Damnation();
-            }
-
-            if (sinMeter <= 0)
-            {
-                Absolved();
-            }
-
-            if (0f < actualSin && actualSin < 50f)
-            {
-                if (dialogueScript.confessedMurder)
-                {
-                    Police();
-                }
-                else
-                {
-                    Neutral();
-                }
-            }
-        }
-
-        else
-        {
-            Guilt();
-        }
-
-        FXscript.EndingAudio(aud);
-
-    }
-
-    public void Absolved()
-    {
-        endScreenText.text = "ABSOLVED";
-        aud = 0;
-        CutToBlack();
-    }
-
-    public void Police()
-    {
-
-        FXscript.policeLight.enabled = true;
-        endScreenText.text = "POLICE";
-        if (!FXscript.lightChanging)
-        {
-            StartCoroutine(FXscript.ChangeLight());
-        }
-        aud = 1;
-        CutToBlack();
-    }
-
-    public void Neutral()
-    {
-        endScreenText.text = "NEUTRAL";
-        aud = 2;
-        CutToBlack();
-    }
-
-    public void Guilt()
-    {
-        endScreenText.text = "GUILT";
-        aud = 3;
-        CutToBlack();
-    }
-
-    void Damnation()
-    {
-        endScreenText.text = "DAMNATION";
-        aud = 4;
-        distortionPlane.SetActive(true);
-        
-        if (smokePlaying == false)
-        {
-            smokePlaying = true;
-            smoke.Play();
-        }
-        
-        float maxCell = 5f;
-        float distortionSize = Mathf.Lerp(0, 1, cellTimer);
-        distortion.material.SetFloat("_HeatDistortion", distortionSize);
-
-        cells = Mathf.Lerp(1.7f, maxCell, cellTimer);
-        boothModel.material.SetFloat("_Cell_size", cells);
-        
-        FXscript.popeBody.material.SetTexture("_Texture2D", popeTex[6]);
-
-        if (cells < maxCell)
-        {
-            cellTimer += Time.deltaTime / 20;
-        }
-
-        if (cells == maxCell)
-        {
-            CutToBlack();
-        }
-
-    }
-
-    public void EndScreen()
-    {
-        endScreen.SetActive(true);
-    }
-
-    public void CutToBlack()
-    {
-        if (!delegateCoroutineRunning)
-        {
-            StartCoroutine(Delay(EndScreen, 5f));
-        }
     }
 
     public void SinBars()

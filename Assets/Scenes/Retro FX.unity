@@ -32418,6 +32418,7 @@ GameObject:
   - component: {fileID: 1544572712}
   - component: {fileID: 1544572713}
   - component: {fileID: 1544572714}
+  - component: {fileID: 1544572715}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -32556,17 +32557,7 @@ MonoBehaviour:
   sinBarHolder: {fileID: 1778678605}
   sinTimeBar: {fileID: 1625156721}
   sinTimer: 0
-  dialogueHolder: {fileID: 1456469061}
   priestDialogueHolder: {fileID: 1959795903}
-  smokeObject: {fileID: 0}
-  smoke: {fileID: 0}
-  distortionPlane: {fileID: 1803461443}
-  distortion: {fileID: 1803461446}
-  endScreen: {fileID: 1290800785}
-  endScreenText: {fileID: 451397636}
-  dialogueOver: 0
-  policeLight: {fileID: 1787631038}
-  smokePlaying: 0
   kickedOut: 0
   curtain: {fileID: 1901133970}
   curtainAnimator: {fileID: 1901133972}
@@ -32581,156 +32572,12 @@ MonoBehaviour:
   player: {fileID: 728732041}
   playerRb: {fileID: 728732047}
   moveSpeed: 9
-  movementScript: {fileID: 728732049}
   isMoving: 0
   isConfessing: 0
   boothOpen: 0
   canEnter: 0
-  dialogue:
-  - Are you ready to confess your sins?
-  - Enter when you are ready...
-  - 
-  - How long has it been since your last confession?
-  - That is quite recent, what are your transgressions
-  - "\u2026.Our conversation here is private, but you must understand I may have
-    to tell authorities in some circumstances"
-  - 'Priest: Have you considered moving away from such an occupation?'
-  - There are places for people like you to go, to be rehabilitated, retrained, dont
-    give up. Tell me your sins
-  - 
-  - 
-  - 
-  - These things can be forgiven, both in the eyes of the law and the lord
-  - and how do you feel about this, do you feel guilt? You come again and again and
-    keep repeating your sins
-  - I can see your intentions are true...please make your penance
-  - I absolve you
-  - Give thanks to the Lord, for he is good.
-  - 
-  - 
-  dialogue2:
-  - 
-  - 
-  - 
-  - And yet you are here.How long has it been since your last confession
-  - Its never a bad time to start, you must have much to speak about
-  - 
-  - 
-  - I see, well I can offer you little advice otherwise. State your sins in detail
-  - 
-  - 
-  - 
-  - "\u2026how many\u2026killed?"
-  - You say you feel guilt, but you want to get back to it, you must mean it when
-    you confess, its not just a facade.
-  - I dont believe you truly mean it
-  - ' I cannot absolve you, I''m sorry. May god be more merciful than me'
-  - 
-  - 
-  - 
-  dialogue3:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 'You clearly Fell no Shame at all!! In fact you relish in it! '
-  - 
-  - 
-  - 
-  - 
-  - 
-  dialogueObject: {fileID: 330166807}
-  goodDialogue:
-  - Yes
-  - Bless me Father for I have sinned
-  - 3 weeks
-  - I live a life of crime, guilt quickly builds up
-  - 'I understand father '
-  - Its all ive ever known, I have no other skills and a huge rap sheet. I dont know
-    where to go
-  - "I confess that I have: 1:Stolen\u2026"
-  - (and) nothing else
-  - (and) nothing else
-  - (and) nothing else
-  - I hope so father, all the stress eats away at me, I need to abandon this life
-  - I see tortured visions every time, but Its unavoidable, I dont set out to kill,
-    I just dont want to be locked up
-  - ' "O God, be merciful to me, a sinner."'
-  - Thank you
-  - His mercy endures for ever.
-  - 
-  goodDialogue2:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - "More than I can count\u2026"
-  - 
-  - 
-  - I understand, I just needed to get it off my chest
-  - 
-  - 
-  badDialogue:
-  - No
-  - "I don\u2019t believe in confession"
-  - This is my first time
-  - I live a life of crime, I could write you a novel.
-  - Fuck no, I cant trust you, im leaving
-  - I'm good at it, I make a lot of money from it, why would I stop
-  - 
-  - Trespassed
-  - Decieved
-  - Killed
-  - I am not going to the law! I just need to absolve my guilt so I can get back
-    to it
-  - I just need to clear my head every now and then, so I can keep going, thats all
-  - 
-  - 
-  - ...
-  - 
-  badDialogue2:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - well, I dont mean to brag but its probably close to 50
-  - 
-  - 
-  - I did all of this for nothing?
-  - Great Guilt Free!
-  - 
-  goodText: {fileID: 223442261}
-  badText: {fileID: 155444707}
   Pope: {fileID: 2133986736}
   popeBody: {fileID: 1931661558}
-  popeTex:
-  - {fileID: 2800000, guid: b1a8731ee71f51e429786271549da22e, type: 3}
-  - {fileID: 2800000, guid: 33636a6838946eb478b754ac94c456c5, type: 3}
-  - {fileID: 2800000, guid: 646bbd574a8a019499e0ff83c2aa0f93, type: 3}
-  - {fileID: 2800000, guid: 05e24ad63bea4bd4d9726d4f2cdddcc9, type: 3}
-  - {fileID: 2800000, guid: 4352527d3c0401d4e9a0785d87ffda93, type: 3}
-  - {fileID: 2800000, guid: 8dfe94dd61e8f8c45a9203d33168c9dd, type: 3}
-  - {fileID: 2800000, guid: ab741acace8f00949b6a6ced51092e0f, type: 3}
   popeHead: {fileID: 1125968950}
   popeBooth: {fileID: 339086982}
   outerBooth: {fileID: 361051767}
@@ -32744,6 +32591,8 @@ MonoBehaviour:
   delegateCoroutineRunning: 0
   FXscript: {fileID: 1544572713}
   dialogueScript: {fileID: 1544572714}
+  movementScript: {fileID: 728732049}
+  endingScript: {fileID: 1544572715}
 --- !u!114 &1544572713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32948,6 +32797,29 @@ MonoBehaviour:
   waitForSpeech: 0
   player: {fileID: 728732041}
   FXscript: {fileID: 1544572713}
+--- !u!114 &1544572715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544572706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88e3ecf139c243e4bb70ebf64acc22cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueScript: {fileID: 1544572714}
+  cinematicScript: {fileID: 1544572712}
+  FXscript: {fileID: 1544572713}
+  smokeObject: {fileID: 0}
+  smoke: {fileID: 0}
+  distortionPlane: {fileID: 1803461443}
+  distortion: {fileID: 1803461446}
+  endScreen: {fileID: 1290800785}
+  endScreenText: {fileID: 451397636}
+  smokePlaying: 0
+  boothModel: {fileID: 730557924}
 --- !u!1 &1569004909
 GameObject:
   m_ObjectHideFlags: 0

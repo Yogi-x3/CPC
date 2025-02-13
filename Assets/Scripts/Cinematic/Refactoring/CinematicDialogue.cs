@@ -184,7 +184,6 @@ public class CinematicDialogue : MonoBehaviour
                 if (d == 11 && confessedMurder)
                 {
                     dialogueOver = true;
-                    cinematicScript.LeaveBooth();
                 }
             }
 
@@ -217,7 +216,11 @@ public class CinematicDialogue : MonoBehaviour
             if (button.tag == "Bad")
             {
                 //if bad option, check whether pope dialgoue is empty
-                if (dialogue3[d] == "")
+                if (dialogue3[d] != "")
+                {
+                    dtrack = 3;
+                }
+                else if (dialogue3[d] == "")
                 {
                     dtrack = 2;
                 }
@@ -231,7 +234,6 @@ public class CinematicDialogue : MonoBehaviour
                 if (d == 6)
                 {
                     dialogueOver = true;
-                    cinematicScript.LeaveBooth();
                 }
             }
 
@@ -240,12 +242,13 @@ public class CinematicDialogue : MonoBehaviour
             {
                 isAbsolved = true;
                 dialogueOver = true;
-                //Stay in booth for Damnation
-                if (cinematicScript.sinMeter <= 50)
-                {
-                    cinematicScript.LeaveBooth();
-                }
             }
+
+            if (dialogueOver && cinematicScript.sinMeter < 50) 
+            {
+                cinematicScript.LeaveBooth();
+            }
+            
         }
 
     }
