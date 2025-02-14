@@ -4,33 +4,37 @@ using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
 {
+    [Header("Scripts")]
+    public Cinematic cinematic;
+    public UI uiScript;
+    public FirstPersonMovement movementScript;
+
+    [Header("MouseSens")]
     public float sensX;
     public float sensY;
 
-    public Transform orientation;
-
+    [Header("Rotation")]
+    private Transform orientation;
     float xRotation;
     float yRotation;
 
-    public Cinematic cinematic;
-    
-    
+
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
+        orientation = movementScript.player;
+}
 
     // Update is called once per frame
     void Update()
     {
-
-        if (cinematic.cinematicMode && !Input.GetMouseButton(1))
+        //allow player to look around with right click
+        if (uiScript.cinematicMode && !Input.GetMouseButton(1))
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        else if (!cinematic.cinematicMode || Input.GetMouseButton(1))
+        else if (!uiScript.cinematicMode || Input.GetMouseButton(1))
         {
             float mouseX = Input.GetAxisRaw("MouseX") * Time.deltaTime * sensX;
             float mouseY = Input.GetAxisRaw("MouseY") * Time.deltaTime * sensY;

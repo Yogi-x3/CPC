@@ -9,6 +9,7 @@ public class Endings : MonoBehaviour
     public CinematicDialogue dialogueScript;
     public Cinematic cinematicScript;
     public AudioandFX FXscript;
+    public UI uiScript;
 
     public GameObject smokeObject;
     public ParticleSystem smoke;
@@ -22,7 +23,7 @@ public class Endings : MonoBehaviour
     public Renderer boothModel;
     private int aud;
     private bool damnation = false;
-
+    private bool endingCoroutine;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,7 @@ public class Endings : MonoBehaviour
         cells = 1.7f;
         distortionPlane.SetActive(false);
         endScreen.SetActive(false);
+        endingCoroutine = false;
     }
 
     // Update is called once per frame
@@ -53,17 +55,17 @@ public class Endings : MonoBehaviour
 
         if (dialogueScript.isAbsolved == true)
         {
-            if (cinematicScript.actualSin >= 50f)
+            if (uiScript.actualSin >= 50f)
             {
                 Damnation();
             }
 
-            if (cinematicScript.sinMeter <= 0)
+            if (uiScript.sinMeter <= 0)
             {
                 Absolved();
             }
 
-            if (0f < cinematicScript.actualSin && cinematicScript.actualSin < 50f)
+            if (0f < uiScript.actualSin && uiScript.actualSin < 50f)
             {
                 if (dialogueScript.confessedMurder)
                 {
@@ -153,16 +155,18 @@ public class Endings : MonoBehaviour
 
     }
 
-    public void EndScreen()
+    public IEnumerator EndScreen()
     {
+        yield return new WaitForSeconds(5f);
         endScreen.SetActive(true);
     }
 
     public void CutToBlack()
     {
-        if (!cinematicScript.delegateCoroutineRunning)
+        if (!endingCoroutine)
         {
-            StartCoroutine(cinematicScript.Delay(EndScreen, 5f));
+            endingCoroutine = true;
+            StartCoroutine(EndScreen());
         }
     }
 }

@@ -6,8 +6,9 @@ public class AudioandFX : MonoBehaviour
 {
     public Cinematic cinematicScript;
     public CinematicDialogue dialogueScript;
-    private float glowTimer;
+    public UI uiScript;
 
+    private float glowTimer;
     public ParticleSystem redFire;
     public ParticleSystem orangeFire;
     public ParticleSystem yellowFire;
@@ -55,12 +56,12 @@ public class AudioandFX : MonoBehaviour
         {
 
             //happy
-            if (cinematicScript.sinMeter < 10)
+            if (uiScript.sinMeter < 10)
             {
                 popeBody.material.SetTexture("_Texture2D", popeTex[0]);
             }
 
-            if (cinematicScript.sinMeter > 10 && cinematicScript.sinMeter < 25)
+            if (uiScript.sinMeter > 10 && uiScript.sinMeter < 25)
             {
                 //uneasy
                 if (confessedMurder == true)
@@ -74,7 +75,7 @@ public class AudioandFX : MonoBehaviour
                 }
             }
 
-            if (cinematicScript.sinMeter > 25 && cinematicScript.sinMeter < 50)
+            if (uiScript.sinMeter > 25 && uiScript.sinMeter < 50)
             {
                 //worried
                 if (confessedMurder == true)
@@ -88,7 +89,7 @@ public class AudioandFX : MonoBehaviour
                 }
             }
             //anggry
-            if (cinematicScript.sinMeter > 50)
+            if (uiScript.sinMeter > 50)
             {
                 popeBody.material.SetTexture("_Texture2D", popeTex[5]);
             }
@@ -97,7 +98,7 @@ public class AudioandFX : MonoBehaviour
 
     public void FireFX()
     {
-        fireScale = 0.02f * cinematicScript.sinMeter;
+        fireScale = 0.02f * uiScript.sinMeter;
         float redScale = 10 * fireScale;
         float orangeScale = 8 * fireScale;
         float yellowScale = 4 * fireScale;

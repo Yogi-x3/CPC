@@ -4,42 +4,41 @@ using UnityEngine;
 
 public class FirstPersonMovement : MonoBehaviour
 {
+    [Header("Scripts")]
+    public Cinematic cinematicScript;
+    public UI uiScript;
+
     [Header("Movement")]
+    public Transform player;
+    public Rigidbody playerRb;
+    Vector3 movementDir;
     public float moveSpeed;
-
-    public Transform orientation;
-
     public float groundDrag;
-
     float horizontalInput;
     float verticalInput;
 
+    [Header("WalkSound")]
     public AudioSource playerAudio;
     public AudioClip[] playerSounds;
-    public bool isWalking;
-    public Cinematic cinematicScript;
-    public Animator camAnim;
+    private bool isWalking;
 
-
-    Vector3 movementDir;
-
-    Rigidbody rb;
     
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
+        playerRb = GetComponent<Rigidbody>();
+        playerRb.freezeRotation = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (cinematicScript.cinematicMode == false)
+        //cant move while conversing
+        if (uiScript.cinematicMode == false)
         {
             MyInput();
             SpeedControl();
-            rb.drag = groundDrag;
+            playerRb.drag = groundDrag;
 
         }
 
@@ -60,35 +59,30 @@ public class FirstPersonMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        movementDir = orientation.forward *verticalInput + orientation.right * horizontalInput;
+        movementDir = player.forward *verticalInput + player.right * horizontalInput;
 
-        rb.AddForce(movementDir.normalized * moveSpeed * 10f, ForceMode.Force);
+        playerRb.AddForce(movementDir.normalized * moveSpeed * 10f, ForceMode.Force);
 
     }
-
+    //prevents player surpassing max speed
     private void SpeedControl()
     {
-        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        Vector3 flatVel = new Vector3(playerRb.velocity.x, 0f, playerRb.velocity.z);
 
         if(flatVel.magnitude > moveSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
-            rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+            playerRb.velocity = new Vector3(limitedVel.x, playerRb.velocity.y, limitedVel.z);
         }
 
 
 
     }
-
+    //footstep sound effect
     private void Steps()
     {
 
-        //if (cinematicScript.cinematicMode && !cinematicScript.isConfessing)
-        //{
-        //    rb.velocity = new Vector3(0, 0, 0);
-        //}
-
-        if (rb.velocity.magnitude > 1f)
+        if (playerRb.velocity.magnitude > 1f)
         {
             if (!isWalking)
             {
@@ -97,7 +91,7 @@ public class FirstPersonMovement : MonoBehaviour
                 isWalking = true;
             }
         }
-        else if (rb.velocity.magnitude < 1f)
+        else if (playerRb.velocity.magnitude < 1f)
         {
             playerAudio.Stop();
             isWalking = false;

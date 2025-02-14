@@ -718,11 +718,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a69310859c23b024abe0d470ac5b15de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 332614543}
-  range: 10
+  uiScript: {fileID: 1544572716}
   cinematicScript: {fileID: 1544572712}
+  agentObject: {fileID: 332614542}
+  agent: {fileID: 332614543}
   popeAnimator: {fileID: 1259593776}
   centrePoint: {fileID: 587397069}
+  range: 10
 --- !u!136 &332614546
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1909,6 +1911,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cinematicScript: {fileID: 1544572712}
+  uiScript: {fileID: 1544572716}
+  dialogueScript: {fileID: 1544572714}
 --- !u!114 &728732049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1921,15 +1925,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 818435b5f12017948a9aba8bbcc7701a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 9
-  orientation: {fileID: 728732045}
-  groundDrag: 0
-  playerAudio: {fileID: 728732050}
-  playerSounds:
-  - {fileID: 8300000, guid: 54deeafcb7ee5cb4c85c4f261ecdbdcc, type: 3}
-  isWalking: 0
   cinematicScript: {fileID: 1544572712}
-  camAnim: {fileID: 0}
+  uiScript: {fileID: 1544572716}
+  player: {fileID: 728732045}
+  playerRb: {fileID: 0}
+  moveSpeed: 9
+  groundDrag: 0
+  playerAudio: {fileID: 0}
+  playerSounds: []
 --- !u!82 &728732050
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7530,10 +7533,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d084ddaf4dbb79248b91bf82d165c519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cinematic: {fileID: 1544572712}
+  uiScript: {fileID: 1544572716}
+  movementScript: {fileID: 728732049}
   sensX: 400
   sensY: 400
-  orientation: {fileID: 728732045}
-  cinematic: {fileID: 1544572712}
 --- !u!114 &963194232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32419,6 +32423,7 @@ GameObject:
   - component: {fileID: 1544572713}
   - component: {fileID: 1544572714}
   - component: {fileID: 1544572715}
+  - component: {fileID: 1544572716}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -32546,53 +32551,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a55949c2baa43449e2d02592323042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackBars: {fileID: 1544572707}
-  cinematicMode: 0
-  interactionDistance: 5
-  sinMeter: 0
-  actualSin: 0
-  storedSin: 0
-  sinLerpTimer: 0
-  sinBar: {fileID: 976695805}
-  sinBarHolder: {fileID: 1778678605}
-  sinTimeBar: {fileID: 1625156721}
-  sinTimer: 0
-  priestDialogueHolder: {fileID: 1959795903}
-  kickedOut: 0
+  FXscript: {fileID: 1544572713}
+  dialogueScript: {fileID: 1544572714}
+  movementScript: {fileID: 728732049}
+  endingScript: {fileID: 1544572715}
+  uiScript: {fileID: 1544572716}
+  priestMovementScript: {fileID: 332614544}
   curtain: {fileID: 1901133970}
-  curtainAnimator: {fileID: 1901133972}
-  boothModel: {fileID: 730557924}
   Openings:
   - {fileID: 1640449896}
   - {fileID: 653649477}
   boothOpening: {fileID: 653649477}
   window: {fileID: 515375527}
   booth: {fileID: 1627770962}
-  cam: {fileID: 963194227}
-  player: {fileID: 728732041}
-  playerRb: {fileID: 728732047}
-  moveSpeed: 9
-  isMoving: 0
   isConfessing: 0
   boothOpen: 0
   canEnter: 0
   Pope: {fileID: 2133986736}
-  popeBody: {fileID: 1931661558}
-  popeHead: {fileID: 1125968950}
-  popeBooth: {fileID: 339086982}
-  outerBooth: {fileID: 361051767}
-  popeStartTime: 0
+  centreBooth: {fileID: 339086983}
+  outerBooth: {fileID: 361051768}
   popeStartPoint: {fileID: 1715557541}
-  agent: {fileID: 332614542}
-  popeAnimation: {fileID: 1259593776}
-  popeAudio: {fileID: 2133986738}
-  popeSounds:
-  - {fileID: 8300000, guid: 0d124a7662da12a4382a59c174dd4387, type: 3}
   delegateCoroutineRunning: 0
-  FXscript: {fileID: 1544572713}
-  dialogueScript: {fileID: 1544572714}
-  movementScript: {fileID: 728732049}
-  endingScript: {fileID: 1544572715}
 --- !u!114 &1544572713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32607,6 +32586,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cinematicScript: {fileID: 1544572712}
   dialogueScript: {fileID: 1544572714}
+  uiScript: {fileID: 1544572716}
   redFire: {fileID: 1141858632}
   orangeFire: {fileID: 1285182032}
   yellowFire: {fileID: 1258417228}
@@ -32652,6 +32632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cinematicScript: {fileID: 1544572712}
+  uiScript: {fileID: 1544572716}
   dialogueHolder: {fileID: 1456469061}
   isAbsolved: 0
   dialogueOver: 0
@@ -32663,7 +32644,7 @@ MonoBehaviour:
   - That is quite recent, what are your transgressions
   - "\u2026.Our conversation here is private, but you must understand I may have
     to tell authorities in some circumstances"
-  - 'Priest: Have you considered moving away from such an occupation?'
+  - Have you considered moving away from such an occupation?
   - There are places for people like you to go, to be rehabilitated, retrained, dont
     give up. Tell me your sins
   - 
@@ -32704,7 +32685,7 @@ MonoBehaviour:
   - 
   - 
   - 
-  - 
+  - Please leave...
   - 
   - 
   - 
@@ -32812,6 +32793,7 @@ MonoBehaviour:
   dialogueScript: {fileID: 1544572714}
   cinematicScript: {fileID: 1544572712}
   FXscript: {fileID: 1544572713}
+  uiScript: {fileID: 1544572716}
   smokeObject: {fileID: 0}
   smoke: {fileID: 0}
   distortionPlane: {fileID: 1803461443}
@@ -32820,6 +32802,39 @@ MonoBehaviour:
   endScreenText: {fileID: 451397636}
   smokePlaying: 0
   boothModel: {fileID: 730557924}
+--- !u!114 &1544572716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544572706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e7fd2bf1938d840a7f0361350c9f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FXscript: {fileID: 1544572713}
+  dialogueScript: {fileID: 1544572714}
+  movementScript: {fileID: 728732049}
+  endingScript: {fileID: 1544572715}
+  cinematicScript: {fileID: 1544572712}
+  priestMovementScript: {fileID: 332614544}
+  cam: {fileID: 963194227}
+  cinematicMode: 0
+  priestDialogueHolder: {fileID: 1959795903}
+  blackBars: {fileID: 1544572707}
+  curtain: {fileID: 0}
+  curtainAnimator: {fileID: 1706293088}
+  popeAnimation: {fileID: 1259593776}
+  sinMeter: 0
+  actualSin: 0
+  storedSin: 0
+  sinLerpTimer: 0
+  sinBar: {fileID: 976695805}
+  sinBarHolder: {fileID: 1778678605}
+  sinTimeBar: {fileID: 1625156721}
+  sinTimer: 0
 --- !u!1 &1569004909
 GameObject:
   m_ObjectHideFlags: 0

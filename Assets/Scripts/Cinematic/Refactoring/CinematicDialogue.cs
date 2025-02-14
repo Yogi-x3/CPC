@@ -9,7 +9,7 @@ public class CinematicDialogue : MonoBehaviour
 {
 
     public Cinematic cinematicScript;
-
+    public UI uiScript;
     public GameObject dialogueHolder;
 
 
@@ -119,7 +119,7 @@ public class CinematicDialogue : MonoBehaviour
     {
 
         waitForSpeech = true;
-        cinematicScript.popeAnimation.SetBool("Yes", true);
+        uiScript.popeAnimation.SetBool("Yes", true);
         d = 1;
         cinematicScript.popeStartPoint.position = cinematicScript.Pope.transform.position;
 
@@ -130,7 +130,7 @@ public class CinematicDialogue : MonoBehaviour
 
     public void No()
     {
-        cinematicScript.cinematicMode = false;
+        uiScript.cinematicMode = false;
     }
 
     public void DialogueOption()
@@ -187,12 +187,12 @@ public class CinematicDialogue : MonoBehaviour
                 }
             }
 
-            //Calculate sin
-            cinematicScript.storedSin = cinematicScript.sinMeter;
-            cinematicScript.sinLerpTimer = 0f;
+            //Calculate sin and reset
+            uiScript.storedSin = uiScript.sinMeter;
+            uiScript.sinLerpTimer = 0f;
 
 
-            float calcuatedSin = 10 * (1 / cinematicScript.sinTimer);
+            float calcuatedSin = 10 * (1 / uiScript.sinTimer);
 
             float roundedSin = Mathf.Round(calcuatedSin);
 
@@ -200,12 +200,12 @@ public class CinematicDialogue : MonoBehaviour
 
             if (button.tag == "Good")
             {
-                cinematicScript.actualSin -= sinClamp;
+                uiScript.actualSin -= sinClamp;
             }
 
             if (button.tag == "Bad")
             {
-                cinematicScript.actualSin += sinClamp;
+                uiScript.actualSin += sinClamp;
             }
 
             //progress dialogue
@@ -244,7 +244,7 @@ public class CinematicDialogue : MonoBehaviour
                 dialogueOver = true;
             }
 
-            if (dialogueOver && cinematicScript.sinMeter < 50) 
+            if (dialogueOver && uiScript.sinMeter < 50) 
             {
                 cinematicScript.LeaveBooth();
             }

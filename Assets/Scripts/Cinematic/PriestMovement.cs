@@ -1,25 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI; //important
+using UnityEngine.AI;
 
-//if you use this code you are contractually obligated to like the YT video
-public class PriestMovement : MonoBehaviour //don't forget to change the script name if you haven't
+
+public class PriestMovement : MonoBehaviour
 {
-    public NavMeshAgent agent;
-    public float range; //radius of sphere
+    [Header("Scripts")]
+    public UI uiScript;
     public Cinematic cinematicScript;
+
+    [Header("Priest")]
+    public GameObject agentObject;
+    public NavMeshAgent agent;
+    public Animator popeAnimator;
+    public Transform centrePoint; //centre of the area the agent moves around in
+
+    public float range = 10; //radius of sphere
     private float startSpeed;
     private bool isLooking;
     private bool pointFound;
-    public Animator popeAnimator;
-    
 
-    public Transform centrePoint; //centre of the area the agent wants to move around in
-    //instead of centrePoint you can set it as the transform of the agent if you don't care about a specific area
 
     void Start()
     {
+        agentObject = this.gameObject;
         agent = GetComponent<NavMeshAgent>();
         startSpeed = agent.speed;
     }
@@ -27,25 +32,27 @@ public class PriestMovement : MonoBehaviour //don't forget to change the script 
 
     void Update()
     {
-        if (agent.remainingDistance <= agent.stoppingDistance) //done with path
+        //if agent gets near to point, stop and start coroutine for animation
+        if (agent.remainingDistance <= agent.stoppingDistance)
         {
             if (!isLooking)
             {
                 StartCoroutine(LookUp());
             }
-
+            //once coroutine done, look for new point to move to in area
             if (pointFound)
             {
                 Vector3 point;
-                if (RandomPoint(centrePoint.position, range, out point)) //pass in our centre point and radius of area
+                if (RandomPoint(centrePoint.position, range, out point))
                 {
-                    Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f); //so you can see with gizmos
+                    //gizmos
+                    Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
                     agent.SetDestination(point);
                 }
             }
         }
-
-        if (cinematicScript.cinematicMode == true)
+        //stop agent in cinematic, doesnt reach point so can continue if no
+        if (uiScript.cinematicMode == true)
         {
             agent.speed = 0;
         } else
@@ -56,13 +63,11 @@ public class PriestMovement : MonoBehaviour //don't forget to change the script 
     }
     bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
-
-        Vector3 randomPoint = center + Random.insideUnitSphere * range; //random point in a sphere 
+        //pick a random point in the area, if one if found set it
+        Vector3 randomPoint = center + Random.insideUnitSphere * range; 
         NavMeshHit hit;
-        if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas)) //documentation: https://docs.unity3d.com/ScriptReference/AI.NavMesh.SamplePosition.html
+        if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
         {
-            //the 1.0f is the max distance from the random point to a point on the navmesh, might want to increase if range is big
-            //or add a for loop like in the documentation
             result = hit.position;
             return true;
         }
@@ -70,7 +75,7 @@ public class PriestMovement : MonoBehaviour //don't forget to change the script 
         result = Vector3.zero;
         return false;
     }
-
+    //play animation when priest reaches desination
     public IEnumerator LookUp()
     {
         isLooking = true;
