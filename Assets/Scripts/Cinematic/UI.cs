@@ -147,7 +147,7 @@ public class UI : MonoBehaviour
                 float clampedTime = Mathf.Clamp(sinTimer, 0.0f, 10.0f);
                 sinTimeBar.enabled = true;
 
-                sinTimeBar.transform.localScale = new Vector3(1 - clampedTime / 10, 1, 1);
+                sinTimeBar.fillAmount = 1 - clampedTime / 10;
             }
             else
             {
