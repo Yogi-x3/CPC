@@ -115,10 +115,11 @@ public class Cinematic : MonoBehaviour
             Pope.transform.position = Vector3.Lerp(outerBooth.position, targetLocation, fractionOfJourney);
         }
     }
+
     //player lerped into booth
     public void PlayerWalk()
     {
-        dialogueScript.d = 17;
+        dialogueScript.d = dialogueScript.dLimit;
         float automaticMoveSpeed = movementScript.moveSpeed / 3;
         float distCovered = (Time.time - startTime) * automaticMoveSpeed;
         float fractionOfJourney = distCovered / journeyDistance;
@@ -128,13 +129,7 @@ public class Cinematic : MonoBehaviour
         Vector3 targetPostition = new Vector3(window.transform.position.x, movementScript.player.position.y, window.transform.position.z);
         movementScript.player.LookAt(targetPostition);
     }
-    //calculates lerp. disables boothOpen so not continually triggered
-    public void EnterBooth()
-    {
-        startTime = Time.time;
-        journeyDistance = Vector3.Distance(boothOpening.position, booth.transform.position);
-        boothOpen = false;
-    }
+
     //Disables booth player is farthest from, showing enter sign and diasbling uneeded FX e,g smoke
     public void ClosestBooth()
     {
@@ -166,16 +161,13 @@ public class Cinematic : MonoBehaviour
 
     }
 
-    //forces player from booth
-    void KickOut()
+    //calculates lerp. disables boothOpen so not continually triggered
+    public void EnterBooth()
     {
-        int blankDialogue = 17;
-        dialogueScript.d = blankDialogue;
-        Vector3 kickOutForce = new Vector3(-100.0f, 0.0f, 0.0f);
-        movementScript.playerRb.AddForce(kickOutForce, ForceMode.Impulse);
-        uiScript.cinematicMode = false;
+        startTime = Time.time;
+        journeyDistance = Vector3.Distance(boothOpening.position, booth.transform.position);
+        boothOpen = false;
     }
-
 
     //prepares dialogue for when re enabled, and starts pope journey
     public void BoothOpen()
@@ -186,19 +178,10 @@ public class Cinematic : MonoBehaviour
         dialogueScript.bd++;
         boothOpen = true;
         priestMoving = true;
-        
+
         popeStartTime = Time.time;
         popeJourneyDistance = Vector3.Distance(popeStartPoint.position, outerBooth.transform.position);
 
-    }
-
-    //Master coroutine
-    public IEnumerator Delay(TestDelegate method, float time)
-    {
-        delegateCoroutineRunning = true;
-        yield return new WaitForSeconds(time);
-        method();
-        delegateCoroutineRunning = false;
     }
     //isconfessing opens curtain, kicks player after delay
     public void LeaveBooth()
@@ -211,4 +194,21 @@ public class Cinematic : MonoBehaviour
         dialogueScript.dialogueHolder.SetActive(false);
     }
 
+    //forces player from booth
+    void KickOut()
+    {
+        dialogueScript.d = dialogueScript.dLimit;
+        Vector3 kickOutForce = new Vector3(-100.0f, 0.0f, 0.0f);
+        movementScript.playerRb.AddForce(kickOutForce, ForceMode.Impulse);
+        uiScript.cinematicMode = false;
+    }
+
+    //Master coroutine
+    public IEnumerator Delay(TestDelegate method, float time)
+    {
+        delegateCoroutineRunning = true;
+        yield return new WaitForSeconds(time);
+        method();
+        delegateCoroutineRunning = false;
+    }
 }

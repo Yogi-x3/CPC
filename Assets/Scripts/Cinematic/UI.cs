@@ -79,7 +79,7 @@ public class UI : MonoBehaviour
             dialogueScript.dialogueHolder.SetActive(false);
             priestDialogueHolder.SetActive(false);
         }
-        else
+        else if (!dialogueScript.waitForSpeech)
         {
             dialogueScript.dialogueHolder.SetActive(true);
             priestDialogueHolder.SetActive(true);

@@ -32587,25 +32587,26 @@ MonoBehaviour:
   cinematicScript: {fileID: 1544572712}
   dialogueScript: {fileID: 1544572714}
   uiScript: {fileID: 1544572716}
-  redFire: {fileID: 1141858632}
-  orangeFire: {fileID: 1285182032}
-  yellowFire: {fileID: 1258417228}
-  policeLight: {fileID: 1787631038}
-  lightChanging: 0
-  audio: {fileID: 862020390}
-  audioclips:
-  - {fileID: 8300000, guid: 554ecc74efa1df64b881eec402cfca0e, type: 3}
-  - {fileID: 8300000, guid: eebddab6f0f6a5e468dd8cd9840ad359, type: 3}
-  - {fileID: 8300000, guid: 6ec22a624f8b4ae4c901091b8d16392f, type: 3}
-  - {fileID: 8300000, guid: 5d2bff5c247b48c4fa6a50ee2dd75793, type: 3}
-  - {fileID: 8300000, guid: d9f5a1346f2c7924fa8ab926f3894f3d, type: 3}
+  movementScript: {fileID: 728732049}
+  priestMovementScript: {fileID: 332614544}
   enterPanel:
   - {fileID: 390422143}
   - {fileID: 1759878515}
   glowModel:
   - {fileID: 441063969}
   - {fileID: 949325050}
-  player: {fileID: 728732041}
+  redFire: {fileID: 1141858632}
+  orangeFire: {fileID: 1285182032}
+  yellowFire: {fileID: 1258417228}
+  policeLight: {fileID: 1787631038}
+  lightChanging: 0
+  endingAudio: {fileID: 862020390}
+  endingClips:
+  - {fileID: 8300000, guid: 554ecc74efa1df64b881eec402cfca0e, type: 3}
+  - {fileID: 8300000, guid: eebddab6f0f6a5e468dd8cd9840ad359, type: 3}
+  - {fileID: 8300000, guid: 6ec22a624f8b4ae4c901091b8d16392f, type: 3}
+  - {fileID: 8300000, guid: 5d2bff5c247b48c4fa6a50ee2dd75793, type: 3}
+  - {fileID: 8300000, guid: d9f5a1346f2c7924fa8ab926f3894f3d, type: 3}
   popeTex:
   - {fileID: 2800000, guid: b1a8731ee71f51e429786271549da22e, type: 3}
   - {fileID: 2800000, guid: 33636a6838946eb478b754ac94c456c5, type: 3}
@@ -32615,7 +32616,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 8dfe94dd61e8f8c45a9203d33168c9dd, type: 3}
   - {fileID: 2800000, guid: ab741acace8f00949b6a6ced51092e0f, type: 3}
   popeBody: {fileID: 1931661558}
-  agent: {fileID: 332614542}
   popeAudio: {fileID: 2133986738}
   popeSounds:
   - {fileID: 8300000, guid: 0d124a7662da12a4382a59c174dd4387, type: 3}
@@ -32633,9 +32633,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cinematicScript: {fileID: 1544572712}
   uiScript: {fileID: 1544572716}
-  dialogueHolder: {fileID: 1456469061}
+  FXscript: {fileID: 1544572713}
   isAbsolved: 0
   dialogueOver: 0
+  confessedMurder: 0
   dialogue:
   - Are you ready to confess your sins?
   - Enter when you are ready...
@@ -32698,6 +32699,7 @@ MonoBehaviour:
   - 
   - 
   d: 0
+  dLimit: 17
   dialogueObject: {fileID: 330166807}
   goodDialogue:
   - Yes
@@ -32735,6 +32737,8 @@ MonoBehaviour:
   - I understand, I just needed to get it off my chest
   - 
   - 
+  gd: 0
+  goodText: {fileID: 223442261}
   badDialogue:
   - No
   - "I don\u2019t believe in confession"
@@ -32770,14 +32774,10 @@ MonoBehaviour:
   - I did all of this for nothing?
   - Great Guilt Free!
   - 
-  gd: 0
   bd: 0
-  goodText: {fileID: 223442261}
   badText: {fileID: 155444707}
-  confessedMurder: 0
+  dialogueHolder: {fileID: 1456469061}
   waitForSpeech: 0
-  player: {fileID: 728732041}
-  FXscript: {fileID: 1544572713}
 --- !u!114 &1544572715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32796,11 +32796,11 @@ MonoBehaviour:
   uiScript: {fileID: 1544572716}
   smokeObject: {fileID: 0}
   smoke: {fileID: 0}
+  smokePlaying: 0
   distortionPlane: {fileID: 1803461443}
   distortion: {fileID: 1803461446}
   endScreen: {fileID: 1290800785}
   endScreenText: {fileID: 451397636}
-  smokePlaying: 0
   boothModel: {fileID: 730557924}
 --- !u!114 &1544572716
 MonoBehaviour:

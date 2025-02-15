@@ -6,32 +6,34 @@ using UnityEngine.UI;
 
 public class Endings : MonoBehaviour
 {
+    [Header("Scripts")]
     public CinematicDialogue dialogueScript;
     public Cinematic cinematicScript;
     public AudioandFX FXscript;
     public UI uiScript;
 
+    [Header("Smoke")]
     public GameObject smokeObject;
     public ParticleSystem smoke;
-    private float cellTimer;
-    private float cells;
+    public bool smokePlaying = false;
+
+    [Header("HeatDistortion")]
     public GameObject distortionPlane;
     public Renderer distortion;
+    private float cellTimer;
+    private float cells = 1.7f;
+
+    [Header("EndScreen")]
     public GameObject endScreen;
     public TMP_Text endScreenText;
-    public bool smokePlaying = false;
     public Renderer boothModel;
     private int aud;
-    private bool damnation = false;
-    private bool endingCoroutine;
 
     // Start is called before the first frame update
     void Start()
     {
-        cells = 1.7f;
         distortionPlane.SetActive(false);
         endScreen.SetActive(false);
-        endingCoroutine = false;
     }
 
     // Update is called once per frame
@@ -49,10 +51,10 @@ public class Endings : MonoBehaviour
 
 
     }
-
+    //calculate ending to play based on Sin levels
     public void EndingSequences()
     {
-
+        dialogueScript.waitForSpeech = true;
         if (dialogueScript.isAbsolved == true)
         {
             if (uiScript.actualSin >= 50f)
@@ -64,7 +66,7 @@ public class Endings : MonoBehaviour
             {
                 Absolved();
             }
-
+            //different endings depending on murder confession
             if (0f < uiScript.actualSin && uiScript.actualSin < 50f)
             {
                 if (dialogueScript.confessedMurder)
@@ -77,26 +79,23 @@ public class Endings : MonoBehaviour
                 }
             }
         }
-
+        //only absolved if you reach the end of the dialogue
         else
         {
             Guilt();
         }
-
         FXscript.EndingAudio(aud);
-
     }
 
     public void Absolved()
     {
         endScreenText.text = "ABSOLVED";
         aud = 0;
-        CutToBlack();
+        StartCoroutine(EndScreen());
     }
 
     public void Police()
     {
-
         FXscript.policeLight.enabled = true;
         endScreenText.text = "POLICE";
         if (!FXscript.lightChanging)
@@ -104,41 +103,41 @@ public class Endings : MonoBehaviour
             StartCoroutine(FXscript.ChangeLight());
         }
         aud = 1;
-        CutToBlack();
+        StartCoroutine(EndScreen());
     }
 
     public void Neutral()
     {
         endScreenText.text = "NEUTRAL";
         aud = 2;
-        CutToBlack();
+        StartCoroutine(EndScreen());
     }
 
     public void Guilt()
     {
         endScreenText.text = "GUILT";
         aud = 3;
-        CutToBlack();
+        StartCoroutine(EndScreen());
     }
 
+    //enable heat disotortion and increase distortion and cell size over time, until a max point
     void Damnation()
     {
-        damnation = true;
         endScreenText.text = "DAMNATION";
         aud = 4;
         distortionPlane.SetActive(true);
-
+        //prevents smoke from restarting
         if (smokePlaying == false)
         {
             smokePlaying = true;
             smoke.Play(smokePlaying);
         }
-
+        float startCell = 1.7f;
         float maxCell = 5f;
         float distortionSize = Mathf.Lerp(0, 1, cellTimer);
         distortion.material.SetFloat("_HeatDistortion", distortionSize);
 
-        cells = Mathf.Lerp(1.7f, maxCell, cellTimer);
+        cells = Mathf.Lerp(startCell, maxCell, cellTimer);
         boothModel.material.SetFloat("_Cell_size", cells);
 
         FXscript.popeBody.material.SetTexture("_Texture2D", FXscript.popeTex[6]);
@@ -147,26 +146,22 @@ public class Endings : MonoBehaviour
         {
             cellTimer += Time.deltaTime / 20;
         }
-
+        //once at max effect bring end screem
         if (cells == maxCell)
         {
-            CutToBlack();
+            StartCoroutine(EndScreen());
         }
 
     }
-
+    //delay to end screen to allow player time to process
     public IEnumerator EndScreen()
     {
-        yield return new WaitForSeconds(5f);
-        endScreen.SetActive(true);
-    }
-
-    public void CutToBlack()
-    {
+        bool endingCoroutine = false;
         if (!endingCoroutine)
         {
             endingCoroutine = true;
-            StartCoroutine(EndScreen());
+            yield return new WaitForSeconds(5f);
+            endScreen.SetActive(true);
         }
     }
 }

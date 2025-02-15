@@ -7,52 +7,43 @@ using UnityEngine.EventSystems;
 
 public class CinematicDialogue : MonoBehaviour
 {
-
+    [Header("Scripts")]
     public Cinematic cinematicScript;
     public UI uiScript;
-    public GameObject dialogueHolder;
-
+    public AudioandFX FXscript;
 
     [Header("Endings")]
     public bool isAbsolved;
     public bool dialogueOver = false;
+    public bool confessedMurder;
 
 
     [Header("PopeDialogue")]
     public string[] dialogue;
     public string[] dialogue2;
     public string[] dialogue3;
-
     private int dtrack;
-
     public int d = 0;
+    public int dLimit = 17;
     public TMP_Text dialogueObject;
 
-    [Header("PlayerDialogue")]
+    [Header("GoodDialogue")]
     public string[] goodDialogue;
     public string[] goodDialogue2;
+    private int gdTrack;
+    public int gd = 0;
+    public TMP_Text goodText;
+
+    [Header("BadDialogue")]
     public string[] badDialogue;
     public string[] badDialogue2;
-
-    private int gdTrack;
     private int bdTrack;
-
-    public int gd = 0;
     public int bd = 0;
-    public TMP_Text goodText;
     public TMP_Text badText;
 
-    public bool confessedMurder;
+    [Header("PlayerDialogue")]
+    public GameObject dialogueHolder;
     public bool waitForSpeech;
-
-    public GameObject player;
-
-
-
-
-
-
-    public AudioandFX FXscript;
     // Start is called before the first frame update
     void Start()
     {
@@ -69,20 +60,21 @@ public class CinematicDialogue : MonoBehaviour
             badText.text = badDialogue[bd];
             goodText.text = goodDialogue[gd];
         }
-
+        //use second set of dialogue unless the dialgoue is blank, then use first set
         if (dtrack == 2)
         {
             dialogueObject.text = dialogue2[d];
 
+           
             if (badDialogue2[bd] != "")
             {
                 badText.text = badDialogue2[bd];
             }
-
             else
             {
                 badText.text = badDialogue[bd];
             }
+
 
             if (goodDialogue2[gd] != "")
             {
@@ -93,18 +85,18 @@ public class CinematicDialogue : MonoBehaviour
                 goodText.text = goodDialogue[gd];
             }
         }
-
+        //use third set of dialogue
         if (dtrack == 3)
         {
             dialogueObject.text = dialogue3[d];
         }
-
-        if (d > 17)
+        //dont allow speech to go above limit
+        if (d > dLimit)
         {
-            d = 17;
+            d = dLimit;
         }
-
-        if (waitForSpeech)
+        //hide dialogue while coroutine running
+        if (waitForSpeech == true)
         {
             dialogueHolder.SetActive(false);
         }
@@ -114,29 +106,27 @@ public class CinematicDialogue : MonoBehaviour
         }
 
     }
-
+    //set pope transform start point and progress dialogue
     public void Yes()
     {
-
         waitForSpeech = true;
         uiScript.popeAnimation.SetBool("Yes", true);
         d = 1;
         cinematicScript.popeStartPoint.position = cinematicScript.Pope.transform.position;
-
         StartCoroutine(cinematicScript.Delay(cinematicScript.BoothOpen, 7f));
-
-
     }
 
+    //return to start state
     public void No()
     {
         uiScript.cinematicMode = false;
     }
 
+    //get button from event system checking the tag to see which option has been chosen
     public void DialogueOption()
     {
         var button = EventSystem.current.currentSelectedGameObject;
-
+        //Only yes and no accesible before in the booth
         if (!cinematicScript.isConfessing)
         {
             if (button.tag == "Good")
@@ -148,7 +138,7 @@ public class CinematicDialogue : MonoBehaviour
                 No();
             }
         }
-
+        //triggers coroutine to hide dialogue on click
         if (cinematicScript.isConfessing)
         {
             StartCoroutine(SpeechDelay());
@@ -180,10 +170,11 @@ public class CinematicDialogue : MonoBehaviour
                 {
                     confessedMurder = true;
                 }
-                //gloating
+                //gloating. Set sin to 0 so as to not trigger damnation
                 if (d == 11 && confessedMurder)
                 {
                     dialogueOver = true;
+                    uiScript.sinMeter = 0;
                 }
             }
 
@@ -191,7 +182,7 @@ public class CinematicDialogue : MonoBehaviour
             uiScript.storedSin = uiScript.sinMeter;
             uiScript.sinLerpTimer = 0f;
 
-
+            //keep sin in whole numbers. Check which option chosen to know if to add or subtract
             float calcuatedSin = 10 * (1 / uiScript.sinTimer);
 
             float roundedSin = Mathf.Round(calcuatedSin);
@@ -237,22 +228,21 @@ public class CinematicDialogue : MonoBehaviour
                 }
             }
 
-            //End of dialgoue
+            //End of dialgoue, either good or bad
             if (d == 16)
             {
                 isAbsolved = true;
                 dialogueOver = true;
             }
-
+            //release from booth unless Damnation ending
             if (dialogueOver && uiScript.sinMeter < 50) 
             {
                 cinematicScript.LeaveBooth();
             }
-            
         }
-
     }
 
+    //allow time for player to read text before countdown
     public IEnumerator SpeechDelay()
     {
         waitForSpeech = true;

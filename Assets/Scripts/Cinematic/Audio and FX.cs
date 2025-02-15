@@ -4,37 +4,36 @@ using UnityEngine;
 
 public class AudioandFX : MonoBehaviour
 {
+    [Header("Scripts")]
     public Cinematic cinematicScript;
     public CinematicDialogue dialogueScript;
     public UI uiScript;
+    public FirstPersonMovement movementScript;
+    public PriestMovement priestMovementScript;
 
+    [Header("Glow")]
     private float glowTimer;
-    public ParticleSystem redFire;
-    public ParticleSystem orangeFire;
-    public ParticleSystem yellowFire;
-    private float fireScale;
-
-    public Light policeLight;
-    private bool redlight = true;
-    public bool lightChanging;
-    public AudioSource audio;
-    public AudioClip[] audioclips;
-    private bool audioPlaying;
-
     public GameObject[] enterPanel;
     public Renderer[] glowModel;
-    public GameObject player;
-
     private bool glowOn;
     private bool glowRun;
 
+    [Header("Fire")]
+    public ParticleSystem redFire;
+    public ParticleSystem orangeFire;
+    public ParticleSystem yellowFire;
 
+    [Header("PoliceLight")]
+    public Light policeLight;
+    private bool redlight = true;
+    public bool lightChanging;
+    public AudioSource endingAudio;
+    public AudioClip[] endingClips;
+    private bool audioPlaying;
 
-    private bool confessedMurder;
-
+    [Header("PopeFX")]
     public Texture2D[] popeTex;
     public Renderer popeBody;
-    public GameObject agent;
     public AudioSource popeAudio;
     public AudioClip[] popeSounds;
     private bool isBreathing;
@@ -51,7 +50,7 @@ public class AudioandFX : MonoBehaviour
 
     public void PriestEmotions()
     {
-        //so dmanation can ovveride all
+        //called once the dialogue is finished
         if (!dialogueScript.dialogueOver)
         {
 
@@ -64,7 +63,7 @@ public class AudioandFX : MonoBehaviour
             if (uiScript.sinMeter > 10 && uiScript.sinMeter < 25)
             {
                 //uneasy
-                if (confessedMurder == true)
+                if (dialogueScript.confessedMurder == true)
                 {
                     popeBody.material.SetTexture("_Texture2D", popeTex[3]);
                 }
@@ -78,7 +77,7 @@ public class AudioandFX : MonoBehaviour
             if (uiScript.sinMeter > 25 && uiScript.sinMeter < 50)
             {
                 //worried
-                if (confessedMurder == true)
+                if (dialogueScript.confessedMurder == true)
                 {
                     popeBody.material.SetTexture("_Texture2D", popeTex[4]);
                 }
@@ -88,7 +87,7 @@ public class AudioandFX : MonoBehaviour
                     popeBody.material.SetTexture("_Texture2D", popeTex[2]);
                 }
             }
-            //anggry
+            //angry
             if (uiScript.sinMeter > 50)
             {
                 popeBody.material.SetTexture("_Texture2D", popeTex[5]);
@@ -96,9 +95,10 @@ public class AudioandFX : MonoBehaviour
         }
     }
 
+    //scale fire in relation to sin
     public void FireFX()
     {
-        fireScale = 0.02f * uiScript.sinMeter;
+        float fireScale = 0.02f * uiScript.sinMeter;
         float redScale = 10 * fireScale;
         float orangeScale = 8 * fireScale;
         float yellowScale = 4 * fireScale;
@@ -114,15 +114,16 @@ public class AudioandFX : MonoBehaviour
 
     }
 
+    //breathing sounds play, volume relative to distance from priest
     public void PopeBreathing()
     {
         float breathingThreshold = 15f;
-        float breathingDistance = Vector3.Distance(player.transform.position, agent.transform.position);
+        float breathingDistance = Vector3.Distance(movementScript.player.position, priestMovementScript.agentObject.transform.position);
 
         float breathingVolume = 1.0f / (breathingDistance - 3f);
         if (breathingDistance < breathingThreshold)
         {
-
+            //prevents play restarting
             if (!isBreathing)
             {
                 popeAudio.clip = popeSounds[0];
@@ -131,6 +132,7 @@ public class AudioandFX : MonoBehaviour
             }
             popeAudio.volume = breathingVolume;
         }
+        //too quiet to hear so no need to play
         else if (breathingDistance > breathingThreshold)
         {
             popeAudio.Stop();
@@ -138,22 +140,24 @@ public class AudioandFX : MonoBehaviour
         }
     }
 
+    //takes in a int from Ending script to choose correct clip
     public void EndingAudio(int track)
     {
         if (dialogueScript.dialogueOver == true)
         {
             if (!audioPlaying)
             {
-                audio.clip = audioclips[track];
-                if (audio.clip != null)
+                endingAudio.clip = endingClips[track];
+                if (endingAudio.clip != null)
                 {
                     audioPlaying = true;
-                    audio.Play();
+                    endingAudio.Play();
                 }
             }
         }
     }
 
+    //alternates between light colours every second
     public IEnumerator ChangeLight()
     {
         lightChanging = true;
@@ -175,6 +179,7 @@ public class AudioandFX : MonoBehaviour
 
     }
 
+    //increases glow opacity every x seconds, could be done with delta time but this suits style more
     public IEnumerator GlowEffect()
     {
         glowModel[0].material.SetFloat("_Opacity", 0.1f * glowTimer);
@@ -205,6 +210,7 @@ public class AudioandFX : MonoBehaviour
         glowRun = false;
     }
 
+    //Only plays FX once the priest has been interacted with
     public void OpenBoothVFX()
     {
         if (cinematicScript.boothOpen == true)
@@ -220,6 +226,7 @@ public class AudioandFX : MonoBehaviour
         }
         else
         {
+            //reset to 0 to prevent white glow in confession
             foreach (GameObject panel in enterPanel)
             {
                 panel.SetActive(false);
