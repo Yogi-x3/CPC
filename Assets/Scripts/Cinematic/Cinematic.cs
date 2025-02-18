@@ -45,18 +45,21 @@ public class Cinematic : MonoBehaviour
     public TestDelegate methodToCall;
     public bool delegateCoroutineRunning;
 
+    public Texture2D[] cursorTexture;
+    public int cursor;
     // Start is called before the first frame update
     void Start()
     {
         window = GameObject.FindGameObjectWithTag("Window");
         booth = GameObject.FindGameObjectWithTag("Slot");
+        cursor = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        uiScript.CinematicMode();
+        //Cursor.SetCursor(cursorTexture[cursor], Vector2.zero, CursorMode.Auto);
+        //uiScript.CinematicMode();
 
         if (canEnter == true)
         {
@@ -76,6 +79,15 @@ public class Cinematic : MonoBehaviour
     
 
         uiScript.SinBars();
+
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    if (cursor == 7)
+        //    {
+        //        cursor = 0;
+        //    }
+        //    cursor += 1;
+        //}
         
     }
     //diables confessing and player lerp once in position

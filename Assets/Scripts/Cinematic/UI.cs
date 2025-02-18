@@ -30,8 +30,9 @@ public class UI : MonoBehaviour
     public float sinLerpTimer;
     public Image sinBar;
     public GameObject sinBarHolder;
-    public Image sinTimeBar;
+    public GameObject sinTimeBar;
     public float sinTimer;
+    public Image clockHand;
     // Start is called before the first frame update
     void Start()
     {
@@ -136,7 +137,7 @@ public class UI : MonoBehaviour
         //cant change sin before confessing so uneeded to run
         if (cinematicScript.isConfessing)
         {
-            sinTimeBar.enabled = true;
+            sinTimeBar.SetActive(true);
             sinBarHolder.SetActive(true);
             sinBar.fillAmount = sinMeter / 80;
 
@@ -145,14 +146,16 @@ public class UI : MonoBehaviour
             {
                 sinTimer += Time.deltaTime;
                 float clampedTime = Mathf.Clamp(sinTimer, 0.0f, 10.0f);
-                sinTimeBar.enabled = true;
+                //sinTimeBar.enabled = true;
 
-                sinTimeBar.fillAmount = 1 - clampedTime / 10;
+                //sinTimeBar.fillAmount = 1 - clampedTime / 10;
+                float angle = (10 - clampedTime) * 36;
+                clockHand.transform.rotation = Quaternion.Euler(new Vector3(clockHand.transform.rotation.x, clockHand.transform.rotation.y, angle));
             }
             else
             {
                 sinTimer = 0.0f;
-                sinTimeBar.enabled = false;
+                sinTimeBar.SetActive(false);
             }
 
             //dont allow sin to drop below 0
@@ -170,7 +173,7 @@ public class UI : MonoBehaviour
         else
         {
 
-            sinTimeBar.enabled = false;
+            sinTimeBar.SetActive(false);
             sinBarHolder.SetActive(false);
         }
 
