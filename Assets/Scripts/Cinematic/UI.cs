@@ -32,6 +32,7 @@ public class UI : MonoBehaviour
     public Image sinBar;
     public GameObject sinBarHolder;
     public GameObject sinTimeBar;
+    public Image sinTimeBarLight;
     public float sinTimer;
     public Image clockHand;
     // Start is called before the first frame update
@@ -151,7 +152,7 @@ public class UI : MonoBehaviour
                 float clampedTime = Mathf.Clamp(sinTimer, 0.0f, 10.0f);
                 //sinTimeBar.enabled = true;
 
-                //sinTimeBar.fillAmount = 1 - clampedTime / 10;
+                sinTimeBarLight.fillAmount = 1 - clampedTime / 10;
                 float angle = (10 - clampedTime) * 36;
                 clockHand.transform.rotation = Quaternion.Euler(new Vector3(clockHand.transform.rotation.x, clockHand.transform.rotation.y, angle));
             }
