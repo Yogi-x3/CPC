@@ -41,6 +41,8 @@ public class PostFX : MonoBehaviour
     [Header("Toning")]
     private SplitToning toning;
     public float toningBalance;
+
+    public float FXTimer;
     // Start is called before the first frame update
     void Start()
     {
@@ -88,18 +90,20 @@ public class PostFX : MonoBehaviour
 
     public void Absolved()
     {
-        bloomIntensity = 4f;
+        FXTimer += Time.deltaTime;
+        bloomIntensity = Mathf.Lerp(0f, 4f, 0.75f * FXTimer);
         colorAdjustEnabled = true;
         toningBalance = 10f;
     }
 
     public void Guilt()
     {
+        FXTimer += Time.deltaTime;
         vignetteEnabled = true;
-        vignetteIntensity = 0.5f;
+        vignetteIntensity = Mathf.Lerp(0f, 0.5f, 0.75f * FXTimer);
         colorAdjustEnabled = true;
-        saturation = -20f;
-        bloomIntensity = 0f;
+        saturation = Mathf.Lerp(0f, -20f, 0.5f * FXTimer);
+        bloomIntensity = Mathf.Lerp(1.2f, 0f, FXTimer);
     }
 
     public void Damnation()
