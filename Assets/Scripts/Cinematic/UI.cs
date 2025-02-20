@@ -12,6 +12,7 @@ public class UI : MonoBehaviour
     public Endings endingScript;
     public Cinematic cinematicScript;
     public PriestMovement priestMovementScript;
+    public PostFX postScript;
 
     [Header("Cinematics")]
     public Camera cam;
@@ -125,6 +126,8 @@ public class UI : MonoBehaviour
         }
         //bars appear in cinematic mode, and movement disabled
         cam.fieldOfView = Mathf.Lerp(60, 80, FOVtimer);
+        postScript.DOFDistance = Mathf.Lerp(20, 3, FOVtimer);
+        postScript.paniniDistance = Mathf.Lerp(0, 1, FOVtimer);
         blackBars.SetBool("isCinematic", cinematicMode);
         curtainAnimator.SetBool("InBooth", cinematicScript.isConfessing);
         popeAnimation.SetBool("isWalking", !cinematicMode);

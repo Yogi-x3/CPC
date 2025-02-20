@@ -8,6 +8,7 @@ public class Triggering : MonoBehaviour
     public Cinematic cinematicScript;
     public UI uiScript;
     public CinematicDialogue dialogueScript;
+    public Endings endings;
     // Start is called before the first frame update
     void OnTriggerEnter(Collider other)
     {
@@ -16,6 +17,11 @@ public class Triggering : MonoBehaviour
             cinematicScript.canEnter = true;
             uiScript.cinematicMode = true;
             cinematicScript.EnterBooth();
+        }
+
+        if (other.CompareTag("LevelEnd") && dialogueScript.dialogueOver)
+        {
+            endings.EndScreen();   
         }
     }
 }

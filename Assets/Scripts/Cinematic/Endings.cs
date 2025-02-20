@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
+
 public class Endings : MonoBehaviour
 {
     [Header("Scripts")]
@@ -11,6 +12,8 @@ public class Endings : MonoBehaviour
     public Cinematic cinematicScript;
     public AudioandFX FXscript;
     public UI uiScript;
+    public PostFX postScript;
+    public FirstPersonMovement movementScript;
 
     [Header("Smoke")]
     public GameObject smokeObject;
@@ -28,12 +31,18 @@ public class Endings : MonoBehaviour
     public TMP_Text endScreenText;
     public Renderer boothModel;
     private int aud;
-
+    public Collider endingdCollider;
+    public Renderer endingPlane;
+    public GameObject glitterParticle;
     // Start is called before the first frame update
     void Start()
     {
         distortionPlane.SetActive(false);
         endScreen.SetActive(false);
+        endingdCollider.isTrigger = false;
+        endingPlane.material.SetColor("_Color", Color.black);
+        endingPlane.material.SetColor("_Emmision", Color.black);
+        glitterParticle.SetActive(false);
     }
 
     // Update is called once per frame
@@ -54,6 +63,11 @@ public class Endings : MonoBehaviour
     //calculate ending to play based on Sin levels
     public void EndingSequences()
     {
+        endingPlane.material.SetColor("_Color", Color.white);
+        endingPlane.material.SetColor("_Emmision", Color.white);
+        endingdCollider.isTrigger = true;
+        FXscript.policeLight.enabled = true;
+        
         dialogueScript.waitForSpeech = true;
         if (dialogueScript.isAbsolved == true)
         {
@@ -89,35 +103,42 @@ public class Endings : MonoBehaviour
 
     public void Absolved()
     {
+        postScript.Absolved();
+        FXscript.policeLight.color = Color.white;
+        glitterParticle.SetActive(true);
         endScreenText.text = "ABSOLVED";
         aud = 0;
-        StartCoroutine(EndScreen());
+
     }
 
     public void Police()
     {
-        FXscript.policeLight.enabled = true;
         endScreenText.text = "POLICE";
         if (!FXscript.lightChanging)
         {
             StartCoroutine(FXscript.ChangeLight());
         }
         aud = 1;
-        StartCoroutine(EndScreen());
+
     }
 
     public void Neutral()
     {
+        FXscript.policeLight.color = Color.white;
         endScreenText.text = "NEUTRAL";
         aud = 2;
-        StartCoroutine(EndScreen());
+
     }
 
     public void Guilt()
     {
+        movementScript.moveSpeed = 5f;
+        FXscript.policeLight.color = Color.white;
+        postScript.Guilt();
         endScreenText.text = "GUILT";
         aud = 3;
-        StartCoroutine(EndScreen());
+
+
     }
 
     //enable heat disotortion and increase distortion and cell size over time, until a max point
@@ -126,6 +147,7 @@ public class Endings : MonoBehaviour
         endScreenText.text = "DAMNATION";
         aud = 4;
         distortionPlane.SetActive(true);
+        smokeObject.SetActive(false);
         //prevents smoke from restarting
         if (smokePlaying == false)
         {
@@ -149,19 +171,13 @@ public class Endings : MonoBehaviour
         //once at max effect bring end screem
         if (cells == maxCell)
         {
-            StartCoroutine(EndScreen());
+            endScreen.SetActive(true);
         }
 
     }
     //delay to end screen to allow player time to process
-    public IEnumerator EndScreen()
+    public void EndScreen()
     {
-        bool endingCoroutine = false;
-        if (!endingCoroutine)
-        {
-            endingCoroutine = true;
-            yield return new WaitForSeconds(5f);
-            endScreen.SetActive(true);
-        }
+        endScreen.SetActive(true);
     }
 }
