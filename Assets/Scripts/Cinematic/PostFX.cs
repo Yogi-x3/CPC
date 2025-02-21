@@ -93,7 +93,7 @@ public class PostFX : MonoBehaviour
         FXTimer += Time.deltaTime;
         bloomIntensity = Mathf.Lerp(0f, 4f, 0.75f * FXTimer);
         colorAdjustEnabled = true;
-        toningBalance = 10f;
+        toningBalance = Mathf.Lerp(0f, 10f, 0.75f * FXTimer);
     }
 
     public void Guilt()
@@ -104,6 +104,7 @@ public class PostFX : MonoBehaviour
         colorAdjustEnabled = true;
         saturation = Mathf.Lerp(0f, -20f, 0.5f * FXTimer);
         bloomIntensity = Mathf.Lerp(1.2f, 0f, FXTimer);
+        toningBalance = Mathf.Lerp(0f, -10f, 0.75f * FXTimer);
     }
 
     public void Damnation()

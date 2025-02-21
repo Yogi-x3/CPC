@@ -111,13 +111,14 @@ public class Cinematic : MonoBehaviour
         float distCovered = (Time.time - popeStartTime) * popeMoveSpeed;
         float fractionOfJourney = distCovered / popeJourneyDistance;
 
-        Vector3 targetPostition = new Vector3(movementScript.player.position.x, Pope.transform.position.y, movementScript.player.position.z);
-        Pope.transform.LookAt(targetPostition);
+        
         //to front of booth
         if (boothOpen)
         {
             var targetLocation = outerBooth.position;
             Pope.transform.position = Vector3.Lerp(popeStartPoint.position, targetLocation, fractionOfJourney);
+            Vector3 targetPostition = new Vector3(movementScript.player.position.x, Pope.transform.position.y, movementScript.player.position.z);
+            Pope.transform.LookAt(targetPostition);
 
         }
         //inside booth
@@ -125,6 +126,8 @@ public class Cinematic : MonoBehaviour
         {
             var targetLocation = centreBooth.position;
             Pope.transform.position = Vector3.Lerp(outerBooth.position, targetLocation, fractionOfJourney);
+            Vector3 targetPostition = new Vector3(movementScript.player.position.x, uiScript.popeGrate.transform.position.y, movementScript.player.position.z);
+            Pope.transform.LookAt(targetPostition);
         }
     }
 
@@ -184,7 +187,6 @@ public class Cinematic : MonoBehaviour
     //prepares dialogue for when re enabled, and starts pope journey
     public void BoothOpen()
     {
-        uiScript.popeAnimation.SetBool("Yes", false);
         uiScript.cinematicMode = false;
         dialogueScript.gd++;
         dialogueScript.bd++;

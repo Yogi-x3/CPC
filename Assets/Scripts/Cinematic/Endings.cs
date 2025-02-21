@@ -190,6 +190,7 @@ public class Endings : MonoBehaviour
     public void EndScreen()
     {
         endScreen.SetActive(true);
+        uiScript.cinematicMode = true;
     }
 
 }

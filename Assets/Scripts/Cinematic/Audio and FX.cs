@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class AudioandFX : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class AudioandFX : MonoBehaviour
     public ParticleSystem redFire;
     public ParticleSystem orangeFire;
     public ParticleSystem yellowFire;
+    public Light fireLight;
 
     [Header("PoliceLight")]
     public Light policeLight;
@@ -111,6 +113,13 @@ public class AudioandFX : MonoBehaviour
 
         yellowFire.startSize = yellowScale;
         yellowFire.startLifetime = yellowScale;
+
+        fireLight.intensity = uiScript.sinMeter;
+       
+        float gValue =  255 * (uiScript.sinMeter/100);
+        var color = new Color32(255,(byte)gValue, 0, 255);
+
+        fireLight.color = color;
 
     }
 

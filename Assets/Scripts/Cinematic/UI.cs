@@ -23,6 +23,9 @@ public class UI : MonoBehaviour
     public GameObject curtain;
     public Animator curtainAnimator;
     public Animator popeAnimation;
+    private bool newIdle;
+    public AnimationClip[] clips;
+    public Transform popeGrate;
 
     [Header("Sin")]
     public float sinMeter;
@@ -93,8 +96,15 @@ public class UI : MonoBehaviour
         if (cinematicMode)
         {
             //priest looks at player
-            Vector3 targetPostition = new Vector3(cam.transform.position.x, priestMovementScript.agentObject.transform.position.y, cam.transform.position.z);
-            priestMovementScript.agentObject.transform.LookAt(targetPostition);
+            if (!cinematicScript.isConfessing)
+            {
+                Vector3 targetPostition = new Vector3(cam.transform.position.x, cinematicScript.Pope.transform.position.y, cam.transform.position.z);
+                cinematicScript.Pope.transform.LookAt(targetPostition);
+            } else
+            {
+                Vector3 targetPostition = new Vector3(popeGrate.position.x, cinematicScript.Pope.transform.position.y, popeGrate.transform.position.z);
+                cinematicScript.Pope.transform.LookAt(targetPostition);
+            }
 
             //set player minimum distance from priest
             float cinematicDistance = 7f;
@@ -132,6 +142,7 @@ public class UI : MonoBehaviour
         blackBars.SetBool("isCinematic", cinematicMode);
         curtainAnimator.SetBool("InBooth", cinematicScript.isConfessing);
         popeAnimation.SetBool("isWalking", !cinematicMode);
+        popeAnimation.SetBool("isConfessing", cinematicScript.isConfessing);
         movementScript.enabled = !cinematicMode;
 
     }
@@ -143,7 +154,10 @@ public class UI : MonoBehaviour
         {
             sinTimeBar.SetActive(true);
             sinBarHolder.SetActive(true);
+            FXscript.fireLight.enabled = true;
             sinBar.fillAmount = sinMeter / 80;
+            FXscript.FireFX();
+            StartCoroutine(IdleAnimation());
 
             //counts down timer while player is answering
             if (!dialogueScript.waitForSpeech)
@@ -176,13 +190,29 @@ public class UI : MonoBehaviour
         }
         else
         {
-
+            FXscript.fireLight.enabled = false;
             sinTimeBar.SetActive(false);
             sinBarHolder.SetActive(false);
         }
-
-
-        FXscript.FireFX();
         FXscript.PriestEmotions();
+    }
+
+    public IEnumerator IdleAnimation()
+    {
+        if (newIdle == false)
+        {
+            newIdle = true;
+            int idle = Random.Range(0, 3);
+            popeAnimation.SetInteger("Idle int", idle);
+            popeAnimation.SetBool("newIdle", true);
+
+            float animationTime = clips[idle].length;
+            yield return new WaitForSeconds(animationTime);
+            
+            popeAnimation.SetBool("newIdle", false);
+            float idleTimer = Random.Range(3, 7);
+            yield return new WaitForSeconds(idleTimer);
+            newIdle = false;
+        }
     }
 }
