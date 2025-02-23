@@ -78,24 +78,4 @@ public class FirstPersonMovement : MonoBehaviour
 
 
     }
-    //footstep sound effect
-    private void Steps()
-    {
-
-        if (playerRb.velocity.magnitude > 1f)
-        {
-            if (!isWalking)
-            {
-                playerAudio.clip = playerSounds[0];
-                playerAudio.Play();
-                isWalking = true;
-            }
-        }
-        else if (playerRb.velocity.magnitude < 1f)
-        {
-            playerAudio.Stop();
-            isWalking = false;
-
-        }
-    }
 }

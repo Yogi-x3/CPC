@@ -40,6 +40,10 @@ public class AudioandFX : MonoBehaviour
     public AudioClip[] popeSounds;
     private bool isBreathing;
 
+    [Header("WalkSound")]
+    public bool isWalking;
+    public AudioSource playerAudio;
+    public AudioClip[] playerSounds;
     void Start()
     {
         policeLight.enabled = false;
@@ -48,6 +52,7 @@ public class AudioandFX : MonoBehaviour
     void Update()
     {
         PopeBreathing();
+        Steps();
     }
 
     public void PriestEmotions()
@@ -127,7 +132,7 @@ public class AudioandFX : MonoBehaviour
     public void PopeBreathing()
     {
         float breathingThreshold = 15f;
-        float breathingDistance = Vector3.Distance(movementScript.player.position, priestMovementScript.agentObject.transform.position);
+        float breathingDistance = Vector3.Distance(movementScript.player.position, cinematicScript.popeHead.transform.position);
 
         float breathingVolume = 1.0f / (breathingDistance - 3f);
         if (breathingDistance < breathingThreshold)
@@ -242,6 +247,27 @@ public class AudioandFX : MonoBehaviour
             }
             glowModel[0].material.SetFloat("_Opacity", 0f);
             glowModel[1].material.SetFloat("_Opacity", 0f);
+        }
+    }
+
+    //footstep sound effect
+    private void Steps()
+    {
+
+        if (movementScript.playerRb.velocity.magnitude > 1f)
+        {
+            if (!isWalking)
+            {
+                playerAudio.clip = playerSounds[0];
+                playerAudio.Play();
+                isWalking = true;
+            }
+        }
+        else if (movementScript.playerRb.velocity.magnitude < 1f)
+        {
+            playerAudio.Stop();
+            isWalking = false;
+
         }
     }
 }

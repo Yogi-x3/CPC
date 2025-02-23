@@ -53,7 +53,7 @@ public class UI : MonoBehaviour
 
         SinBars();
 
-
+        AnimationTriggers();
     }
 
     public void CinematicMode()
@@ -213,6 +213,20 @@ public class UI : MonoBehaviour
             float idleTimer = Random.Range(3, 7);
             yield return new WaitForSeconds(idleTimer);
             newIdle = false;
+        }
+    }
+
+    public void AnimationTriggers()
+    {
+        if (dialogueScript.d == 14)
+        {
+            popeAnimation.SetBool("absolved", true);
+            popeAnimation.SetBool("Murder?", dialogueScript.confessedMurder);
+        }
+
+        if (dialogueScript.d == 11)
+        {
+            popeAnimation.SetBool("Murder?", dialogueScript.confessedMurder);
         }
     }
 }

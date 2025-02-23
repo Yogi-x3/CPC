@@ -113,6 +113,10 @@ public class Endings : MonoBehaviour
         glitterParticle.SetActive(true);
         endScreenText.text = "ABSOLVED";
         aud = 0;
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            cinematicScript.KickOut();
+        }
 
     }
 

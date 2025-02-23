@@ -34,6 +34,7 @@ public class Cinematic : MonoBehaviour
 
     [Header("PopeMovement")]
     public GameObject Pope;
+    public Transform popeHead;
     public Transform centreBooth;
     public Transform outerBooth;
     private float popeStartTime;
@@ -201,15 +202,18 @@ public class Cinematic : MonoBehaviour
     public void LeaveBooth()
     {
         isConfessing = false;
-        if (!delegateCoroutineRunning)
+        if (uiScript.sinMeter < 50 && uiScript.sinMeter > 0)
         {
-            StartCoroutine(Delay(KickOut, 3f));
+            if (!delegateCoroutineRunning)
+            {
+                StartCoroutine(Delay(KickOut, 3f));
+            }
         }
         dialogueScript.dialogueHolder.SetActive(false);
     }
 
     //forces player from booth
-    void KickOut()
+    public void KickOut()
     {
         dialogueScript.d = dialogueScript.dLimit;
         Vector3 kickOutForce = new Vector3(-100.0f, 0.0f, 0.0f);

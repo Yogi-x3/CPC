@@ -235,7 +235,7 @@ public class CinematicDialogue : MonoBehaviour
                 dialogueOver = true;
             }
             //release from booth unless Damnation ending
-            if (dialogueOver && uiScript.sinMeter < 50) 
+            if (dialogueOver) 
             {
                 cinematicScript.LeaveBooth();
             }
