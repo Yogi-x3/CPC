@@ -8,6 +8,7 @@ public class PlayerCam : MonoBehaviour
     public Cinematic cinematic;
     public UI uiScript;
     public FirstPersonMovement movementScript;
+    public Menus menuScript;
 
     [Header("MouseSens")]
     public float sensX;
@@ -51,5 +52,12 @@ public class PlayerCam : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
-    }
+
+        if (!menuScript.menuDisabled)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }   
+
 }

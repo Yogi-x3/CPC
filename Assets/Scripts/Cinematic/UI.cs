@@ -156,7 +156,6 @@ public class UI : MonoBehaviour
             sinBarHolder.SetActive(true);
             FXscript.fireLight.enabled = true;
             sinBar.fillAmount = sinMeter / 80;
-            FXscript.FireFX();
             StartCoroutine(IdleAnimation());
 
             //counts down timer while player is answering

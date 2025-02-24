@@ -25,6 +25,7 @@ TagManager:
   - Smoke
   - Good
   - Bad
+  - EnterChurch
   layers:
   - Default
   - TransparentFX

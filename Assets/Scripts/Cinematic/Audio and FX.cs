@@ -53,6 +53,7 @@ public class AudioandFX : MonoBehaviour
     {
         PopeBreathing();
         Steps();
+        FireFX();
     }
 
     public void PriestEmotions()

@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Shop.unity
     guid: 68afc446316c3174fbc393d6811cf86a
+  - enabled: 1
+    path: Assets/Scenes/Cinematic Open.unity
+    guid: d689466d7e6fcd84aa569a6db1a49d1a
+  - enabled: 1
+    path: Assets/Scenes/Cinematic.unity
+    guid: b2be92c99725c3a449de75a716fa7ba9
   m_configObjects: {}

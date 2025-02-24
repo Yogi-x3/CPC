@@ -201,11 +201,11 @@ public class Cinematic : MonoBehaviour
     //isconfessing opens curtain, kicks player after delay
     public void LeaveBooth()
     {
-        isConfessing = false;
         if (uiScript.sinMeter < 50 && uiScript.sinMeter > 0)
         {
             if (!delegateCoroutineRunning)
             {
+                isConfessing = false;
                 StartCoroutine(Delay(KickOut, 3f));
             }
         }

@@ -109,6 +109,11 @@ public class PostFX : MonoBehaviour
 
     public void Damnation()
     {
-
+        FXTimer += Time.deltaTime;
+        colorAdjustEnabled = true;
+        bloomIntensity = Mathf.Lerp(1.2f, 8f, 0.25f * FXTimer);
+        bloomThreshold = Mathf.Lerp(1f, 0.4f, 0.25f * FXTimer);
+        chromaticIntensity = Mathf.Lerp(0.465f, 1f, 0.25f * FXTimer);
+        saturation = Mathf.Lerp(0f, 33f, 0.25f * FXTimer);
     }
 }

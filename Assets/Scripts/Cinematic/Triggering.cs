@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Triggering : MonoBehaviour
 {
@@ -22,6 +23,11 @@ public class Triggering : MonoBehaviour
         if (other.CompareTag("LevelEnd") && dialogueScript.dialogueOver)
         {
             endings.EndScreen();   
+        }
+
+        if (other.CompareTag("EnterChurch"))
+        {
+            SceneManager.LoadScene("Cinematic");
         }
     }
 }

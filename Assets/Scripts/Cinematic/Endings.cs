@@ -58,7 +58,6 @@ public class Endings : MonoBehaviour
         {
             smokeObject = GameObject.FindGameObjectWithTag("Smoke");
             smoke = smokeObject.GetComponent<ParticleSystem>();
-            smoke.Stop();
         }
 
 
@@ -108,6 +107,7 @@ public class Endings : MonoBehaviour
 
     public void Absolved()
     {
+        cinematicScript.isConfessing = true;
         postScript.Absolved();
         FXscript.policeLight.color = Color.white;
         glitterParticle.SetActive(true);
@@ -153,6 +153,7 @@ public class Endings : MonoBehaviour
     //enable heat disotortion and increase distortion and cell size over time, until a max point
     void Damnation()
     {
+        postScript.Damnation();
         float maxJumpscareTime = 1;
         if (jumpScareTimer < maxJumpscareTime)
         {
@@ -162,12 +163,11 @@ public class Endings : MonoBehaviour
         endScreenText.text = "DAMNATION";
         aud = 4;
         distortionPlane.SetActive(true);
-        smokeObject.SetActive(false);
         //prevents smoke from restarting
         if (smokePlaying == false)
         {
             smokePlaying = true;
-            smoke.Play(smokePlaying);
+            smoke.Play();
         }
         float startCell = 1.7f;
         float maxCell = 5f;
@@ -195,6 +195,7 @@ public class Endings : MonoBehaviour
     {
         endScreen.SetActive(true);
         uiScript.cinematicMode = true;
+        uiScript.sinBarHolder.SetActive(false);
     }
 
 }
