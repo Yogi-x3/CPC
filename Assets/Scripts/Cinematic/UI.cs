@@ -26,6 +26,10 @@ public class UI : MonoBehaviour
     private bool newIdle;
     public AnimationClip[] clips;
     public Transform popeGrate;
+    public AnimatorClipInfo[] currentClipInfo;
+    float currentClipLength;
+    public bool animationPlayed;
+    public bool animationState;
 
     [Header("Sin")]
     public float sinMeter;
@@ -49,6 +53,7 @@ public class UI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         CinematicMode();
 
         SinBars();
@@ -156,7 +161,10 @@ public class UI : MonoBehaviour
             sinBarHolder.SetActive(true);
             FXscript.fireLight.enabled = true;
             sinBar.fillAmount = sinMeter / 80;
-            StartCoroutine(IdleAnimation());
+            if (!animationPlayed)
+            {
+                StartCoroutine(IdleAnimation());
+            }
 
             //counts down timer while player is answering
             if (!dialogueScript.waitForSpeech)
@@ -201,14 +209,18 @@ public class UI : MonoBehaviour
         if (newIdle == false)
         {
             newIdle = true;
-            int idle = Random.Range(0, 3);
+            int idle = Random.Range(0, 4);
             popeAnimation.SetInteger("Idle int", idle);
             popeAnimation.SetBool("newIdle", true);
+            yield return new WaitForSeconds(1f);
 
-            float animationTime = clips[idle].length;
+            currentClipInfo = popeAnimation.GetCurrentAnimatorClipInfo(0);
+            currentClipLength = currentClipInfo[0].clip.length;
+
+            float animationTime = currentClipLength - 1f;
             yield return new WaitForSeconds(animationTime);
-            
             popeAnimation.SetBool("newIdle", false);
+
             float idleTimer = Random.Range(3, 7);
             yield return new WaitForSeconds(idleTimer);
             newIdle = false;
@@ -217,15 +229,57 @@ public class UI : MonoBehaviour
 
     public void AnimationTriggers()
     {
-        if (dialogueScript.d == 14)
+        if (dialogueScript.d == 11 || dialogueScript.d == 14)
         {
-            popeAnimation.SetBool("absolved", true);
-            popeAnimation.SetBool("Murder?", dialogueScript.confessedMurder);
-        }
+            if (dialogueScript.d == 14)
+            {
+                if (!animationPlayed)
+                {
+                    animationState = true;
+                    popeAnimation.SetBool("absolved", animationState);
+                    if (dialogueScript.confessedMurder)
+                    {
+                        popeAnimation.SetBool("Murder?", animationState);
+                    }
+                    StartCoroutine(AnimationToFalse());
+                }
+            }
 
-        if (dialogueScript.d == 11)
+            if (dialogueScript.d == 11)
+            {
+                popeAnimation.SetBool("Murder?", animationState);
+                if (dialogueScript.confessedMurder)
+                {
+                    if (!animationPlayed)
+                    {
+                        animationState = true;
+                        StartCoroutine(AnimationToFalse());
+                    }
+                }
+            }
+        } else
         {
-            popeAnimation.SetBool("Murder?", dialogueScript.confessedMurder);
+            animationPlayed = false;
+            animationState = false;
+            popeAnimation.SetBool("Murder?", animationState);
+            popeAnimation.SetBool("absolved", animationState);
+        }
+    }
+
+    public IEnumerator AnimationToFalse() 
+    {
+        if (!animationPlayed)
+        {
+            animationPlayed = true;
+            yield return new WaitForSeconds(1f);
+            currentClipInfo = popeAnimation.GetCurrentAnimatorClipInfo(0);
+            //Access the current length of the clip
+            currentClipLength = currentClipInfo[0].clip.length;
+
+            float animationTime = currentClipLength - 1f;
+            Debug.Log(animationTime);
+            yield return new WaitForSeconds(animationTime);
+            animationState = false;
         }
     }
 }

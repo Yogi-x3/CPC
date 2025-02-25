@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Unity.Audio;
 
 
 public class Endings : MonoBehaviour
@@ -46,6 +47,7 @@ public class Endings : MonoBehaviour
         endingPlane.material.SetColor("_Emmision", Color.black);
         glitterParticle.SetActive(false);
         jumpScare.color = new Color(jumpScare.color.r, jumpScare.color.g, jumpScare.color.b, 0f);
+        FXscript.endingAudio.outputAudioMixerGroup = FXscript.mixerGroups[0];
     }
 
     // Update is called once per frame
@@ -107,7 +109,7 @@ public class Endings : MonoBehaviour
 
     public void Absolved()
     {
-        cinematicScript.isConfessing = true;
+        cinematicScript.isConfessing = false;
         postScript.Absolved();
         FXscript.policeLight.color = Color.white;
         glitterParticle.SetActive(true);
@@ -141,6 +143,13 @@ public class Endings : MonoBehaviour
 
     public void Guilt()
     {
+        foreach (AudioSource source in FXscript.audioSources)
+        {
+            source.outputAudioMixerGroup = FXscript.mixerGroups[1];
+        }
+        
+        //FXscript.endingAudio.outputAudioMixerGroup = FXscript.mixerGroups[1];
+        //FXscript.volume = Mathf.Lerp(1, 0.5f, postScript.FXTimer); 
         movementScript.moveSpeed = 5f;
         FXscript.policeLight.color = Color.white;
         postScript.Guilt();

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Audio;
 
 public class AudioandFX : MonoBehaviour
 {
@@ -32,6 +33,14 @@ public class AudioandFX : MonoBehaviour
     public AudioSource endingAudio;
     public AudioClip[] endingClips;
     private bool audioPlaying;
+    
+    
+    [SerializeField] AudioMixer mixer;
+    public AudioMixerGroup[] mixerGroups;
+    const string MIXER_DISTORT = "DistortVolume";
+    const string MIXER_MASTER = "MasterVolume";
+    const string MIXER_NORMAL = "NormalVolume";
+    public float volume;
 
     [Header("PopeFX")]
     public Texture2D[] popeTex;
@@ -44,6 +53,8 @@ public class AudioandFX : MonoBehaviour
     public bool isWalking;
     public AudioSource playerAudio;
     public AudioClip[] playerSounds;
+
+    public AudioSource[] audioSources;
     void Start()
     {
         policeLight.enabled = false;
@@ -54,6 +65,7 @@ public class AudioandFX : MonoBehaviour
         PopeBreathing();
         Steps();
         FireFX();
+        SetAudioVolume();
     }
 
     public void PriestEmotions()
@@ -270,5 +282,11 @@ public class AudioandFX : MonoBehaviour
             isWalking = false;
 
         }
+    }
+
+    void SetAudioVolume()
+    {
+        mixer.SetFloat(MIXER_DISTORT, volume);
+        mixer.SetFloat(MIXER_NORMAL, 1- volume);
     }
 }

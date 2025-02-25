@@ -10,6 +10,7 @@ public class Triggering : MonoBehaviour
     public UI uiScript;
     public CinematicDialogue dialogueScript;
     public Endings endings;
+    public Menus menuScript;
     // Start is called before the first frame update
     void OnTriggerEnter(Collider other)
     {
@@ -27,7 +28,7 @@ public class Triggering : MonoBehaviour
 
         if (other.CompareTag("EnterChurch"))
         {
-            SceneManager.LoadScene("Cinematic");
+            menuScript.isLoading = true;
         }
     }
 }

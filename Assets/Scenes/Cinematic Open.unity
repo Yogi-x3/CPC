@@ -664,6 +664,7 @@ MonoBehaviour:
   uiScript: {fileID: 1544572716}
   dialogueScript: {fileID: 1544572714}
   endings: {fileID: 1544572715}
+  menuScript: {fileID: 862020392}
 --- !u!114 &728732049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -969,10 +970,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementScript: {fileID: 728732049}
+  camScript: {fileID: 963194231}
   menu: {fileID: 1290800787}
   menuDisabled: 0
   menuTimer: 0
   startButton: {fileID: 1072474034}
+  loadingText: {fileID: 451397636}
+  isLoading: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
