@@ -34,6 +34,8 @@ public class Cinematic : MonoBehaviour
 
     [Header("PopeMovement")]
     public GameObject Pope;
+    public GameObject popeCam;
+    public GameObject popeFaceUI;
     public Transform popeHead;
     public Transform centreBooth;
     public Transform outerBooth;
@@ -154,17 +156,32 @@ public class Cinematic : MonoBehaviour
             float distanceTobooth1 = Vector3.Distance(movementScript.player.transform.position, Openings[0].transform.position);
             float distanceTobooth2 = Vector3.Distance(movementScript.player.transform.position, Openings[1].transform.position);
 
+            Vector3 popeDefaultTransform = new Vector3(1,1,1);
+            Vector3 popeFlippedTransform = new Vector3(-1,1,1);
+
+            popeFaceUI.transform.localScale = Pope.transform.localScale;
             if (distanceTobooth1 < distanceTobooth2)
             {
                 boothOpening = Openings[0];
                 Openings[1].gameObject.SetActive(false);
                 Openings[0].gameObject.SetActive(true);
+
+                if (Pope.transform.localScale != popeDefaultTransform)
+                {
+                    Pope.transform.localScale += new Vector3(2, 0, 0);
+                }
             }
             else
             {
                 boothOpening = Openings[1];
                 Openings[0].gameObject.SetActive(false);
                 Openings[1].gameObject.SetActive(true);
+                
+                if (Pope.transform.localScale != popeFlippedTransform)
+                {
+                    Pope.transform.localScale += new Vector3(-2, 0, 0);
+
+                }
             }
 
             window = GameObject.FindGameObjectWithTag("Window");
@@ -201,8 +218,9 @@ public class Cinematic : MonoBehaviour
     //isconfessing opens curtain, kicks player after delay
     public void LeaveBooth()
     {
-        if (uiScript.sinMeter < 50 && uiScript.sinMeter > 0)
+        if (uiScript.sinMeter < 50 && uiScript.sinMeter > 0 || dialogueScript.gloating == true)
         {
+            delegateCoroutineRunning = false;
             if (!delegateCoroutineRunning)
             {
                 isConfessing = false;
@@ -228,5 +246,10 @@ public class Cinematic : MonoBehaviour
         yield return new WaitForSeconds(time);
         method();
         delegateCoroutineRunning = false;
+    }
+
+    void PriestOrientaion()
+    {
+
     }
 }

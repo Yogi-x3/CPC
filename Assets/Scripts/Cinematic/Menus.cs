@@ -18,6 +18,8 @@ public class Menus : MonoBehaviour
     public TMP_Text loadingText;
     public bool isLoading;
     private bool textdisplay;
+
+    public bool openingScene;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,12 +29,13 @@ public class Menus : MonoBehaviour
 
         if (thisScene == "Cinematic Open")
         {
-
+            openingScene = true;
         }
 
         if (thisScene == "Cinematic")
         {
             menuDisabled = true;
+            openingScene= false;
         }
     }
     

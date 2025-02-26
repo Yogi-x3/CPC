@@ -16,6 +16,7 @@ public class CinematicDialogue : MonoBehaviour
     public bool isAbsolved;
     public bool dialogueOver = false;
     public bool confessedMurder;
+    public bool gloating;
 
 
     [Header("PopeDialogue")]
@@ -174,6 +175,7 @@ public class CinematicDialogue : MonoBehaviour
                 if (d == 11 && confessedMurder)
                 {
                     dialogueOver = true;
+                    gloating = true;
                     uiScript.sinMeter = 0;
                 }
             }

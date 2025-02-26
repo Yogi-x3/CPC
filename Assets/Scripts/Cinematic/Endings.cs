@@ -36,6 +36,7 @@ public class Endings : MonoBehaviour
     public Renderer endingPlane;
     public GameObject glitterParticle;
     public Image jumpScare;
+    public Sprite[] jumpScareImages;
     private float jumpScareTimer;
     // Start is called before the first frame update
     void Start()
@@ -47,7 +48,7 @@ public class Endings : MonoBehaviour
         endingPlane.material.SetColor("_Emmision", Color.black);
         glitterParticle.SetActive(false);
         jumpScare.color = new Color(jumpScare.color.r, jumpScare.color.g, jumpScare.color.b, 0f);
-        FXscript.endingAudio.outputAudioMixerGroup = FXscript.mixerGroups[0];
+        FXscript.mixerInt = 0;
     }
 
     // Update is called once per frame
@@ -62,7 +63,10 @@ public class Endings : MonoBehaviour
             smoke = smokeObject.GetComponent<ParticleSystem>();
         }
 
-
+        foreach (AudioSource source in FXscript.audioSources)
+        {
+            source.outputAudioMixerGroup = FXscript.mixerGroups[FXscript.mixerInt];
+        }
 
 
     }
@@ -105,10 +109,13 @@ public class Endings : MonoBehaviour
             Guilt();
         }
         FXscript.EndingAudio(aud);
+        Jumpscare();
+        jumpScare.sprite = jumpScareImages[aud];
     }
 
     public void Absolved()
     {
+        FXscript.mixerInt = 2;
         cinematicScript.isConfessing = false;
         postScript.Absolved();
         FXscript.policeLight.color = Color.white;
@@ -143,10 +150,7 @@ public class Endings : MonoBehaviour
 
     public void Guilt()
     {
-        foreach (AudioSource source in FXscript.audioSources)
-        {
-            source.outputAudioMixerGroup = FXscript.mixerGroups[1];
-        }
+        FXscript.mixerInt = 1;
         
         //FXscript.endingAudio.outputAudioMixerGroup = FXscript.mixerGroups[1];
         //FXscript.volume = Mathf.Lerp(1, 0.5f, postScript.FXTimer); 
@@ -163,12 +167,6 @@ public class Endings : MonoBehaviour
     void Damnation()
     {
         postScript.Damnation();
-        float maxJumpscareTime = 1;
-        if (jumpScareTimer < maxJumpscareTime)
-        {
-            jumpScareTimer += Time.deltaTime;
-        }
-        jumpScare.color = new Color(jumpScare.color.r, jumpScare.color.g, jumpScare.color.b, 1 - jumpScareTimer);
         endScreenText.text = "DAMNATION";
         aud = 4;
         distortionPlane.SetActive(true);
@@ -205,6 +203,16 @@ public class Endings : MonoBehaviour
         endScreen.SetActive(true);
         uiScript.cinematicMode = true;
         uiScript.sinBarHolder.SetActive(false);
+    }
+
+    public void Jumpscare()
+    {
+        float maxJumpscareTime = 1;
+        if (jumpScareTimer < maxJumpscareTime)
+        {
+            jumpScareTimer += Time.deltaTime;
+        }
+        jumpScare.color = new Color(jumpScare.color.r, jumpScare.color.g, jumpScare.color.b, 1 - jumpScareTimer);
     }
 
 }

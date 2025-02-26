@@ -12,6 +12,7 @@ public class AudioandFX : MonoBehaviour
     public UI uiScript;
     public FirstPersonMovement movementScript;
     public PriestMovement priestMovementScript;
+    public Menus menuScriot;
 
     [Header("Glow")]
     private float glowTimer;
@@ -37,6 +38,7 @@ public class AudioandFX : MonoBehaviour
     
     [SerializeField] AudioMixer mixer;
     public AudioMixerGroup[] mixerGroups;
+    public int mixerInt;
     const string MIXER_DISTORT = "DistortVolume";
     const string MIXER_MASTER = "MasterVolume";
     const string MIXER_NORMAL = "NormalVolume";
@@ -55,6 +57,10 @@ public class AudioandFX : MonoBehaviour
     public AudioClip[] playerSounds;
 
     public AudioSource[] audioSources;
+
+    public GameObject churchBells;
+    public AudioSource bellAudio;
+    private bool bellPlaying;
     void Start()
     {
         policeLight.enabled = false;
@@ -62,10 +68,18 @@ public class AudioandFX : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PopeBreathing();
-        Steps();
-        FireFX();
-        SetAudioVolume();
+        if (menuScriot.openingScene == true)
+        {
+            Steps();
+            BellVolume();
+        }
+        else
+        {
+            PopeBreathing();
+            Steps();
+            FireFX();
+            SetAudioVolume();
+        }
     }
 
     public void PriestEmotions()
@@ -281,6 +295,19 @@ public class AudioandFX : MonoBehaviour
             playerAudio.Stop();
             isWalking = false;
 
+        }
+    }
+
+    public void BellVolume()
+    {
+        float bellDistance = Vector3.Distance(movementScript.player.position, churchBells.transform.position);
+        
+        float bellVolume = 3f / (bellDistance);
+        bellAudio.volume = bellVolume;
+        if (!bellPlaying)
+        {
+            bellAudio.Play();
+            bellPlaying = true;
         }
     }
 
