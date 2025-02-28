@@ -99,4 +99,9 @@ public class Menus : MonoBehaviour
 
         }
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }

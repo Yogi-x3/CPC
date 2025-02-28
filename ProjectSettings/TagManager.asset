@@ -26,6 +26,7 @@ TagManager:
   - Good
   - Bad
   - EnterChurch
+  - Grave
   layers:
   - Default
   - TransparentFX

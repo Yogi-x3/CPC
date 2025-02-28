@@ -58,9 +58,15 @@ public class AudioandFX : MonoBehaviour
 
     public AudioSource[] audioSources;
 
+    [Header("Exterior")]
     public GameObject churchBells;
     public AudioSource bellAudio;
     private bool bellPlaying;
+    public AudioSource graveSource;
+    public GameObject grave;
+    public bool gravePlaying;
+    public bool graveSteppedOn;
+    public float graveTimer;
     void Start()
     {
         policeLight.enabled = false;
@@ -315,5 +321,19 @@ public class AudioandFX : MonoBehaviour
     {
         mixer.SetFloat(MIXER_DISTORT, volume);
         mixer.SetFloat(MIXER_NORMAL, 1- volume);
+    }
+
+    public void GraveVolume()
+    {
+        float graveDistance = Vector3.Distance(movementScript.player.position, grave.transform.position);
+
+        float graveVolume = 1f / (graveDistance);
+        graveSource.volume = graveVolume;
+        graveSource = grave.GetComponent<AudioSource>();
+        if (gravePlaying)
+        {
+            graveSource.Play();
+            gravePlaying = false;
+        }
     }
 }

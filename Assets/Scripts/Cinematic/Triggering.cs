@@ -11,6 +11,9 @@ public class Triggering : MonoBehaviour
     public CinematicDialogue dialogueScript;
     public Endings endings;
     public Menus menuScript;
+    public AudioandFX FXscript;
+
+    public List<GameObject> graveList;
     // Start is called before the first frame update
     void OnTriggerEnter(Collider other)
     {
@@ -29,6 +32,37 @@ public class Triggering : MonoBehaviour
         if (other.CompareTag("EnterChurch"))
         {
             menuScript.isLoading = true;
+        }
+
+        if (other.CompareTag("Grave"))
+        {
+            FXscript.graveSteppedOn = true;
+            if (FXscript.grave != other.gameObject)
+            {
+                FXscript.grave = other.gameObject;
+                FXscript.graveSource = FXscript.grave.GetComponent<AudioSource>();
+                FXscript.gravePlaying = true;
+                FXscript.GraveVolume();
+            }
+        }
+        AddOrRemove(other.gameObject);
+
+    }
+
+    public void AddOrRemove(GameObject grave)
+    {
+        if (graveList.Contains(grave))
+        {
+
+        }
+        else
+        {
+            graveList.Add(grave);
+        }
+
+        if (graveList.Count == 8)
+        {
+            Debug.Log("all graves");
         }
     }
 }
