@@ -61,12 +61,14 @@ public class AudioandFX : MonoBehaviour
     [Header("Exterior")]
     public GameObject churchBells;
     public AudioSource bellAudio;
+    public AudioSource rainAudio;
     private bool bellPlaying;
     public AudioSource graveSource;
     public GameObject grave;
     public bool gravePlaying;
     public bool graveSteppedOn;
     public float graveTimer;
+    public ParticleSystem rainParticle;
     void Start()
     {
         policeLight.enabled = false;
@@ -325,10 +327,10 @@ public class AudioandFX : MonoBehaviour
 
     public void GraveVolume()
     {
-        float graveDistance = Vector3.Distance(movementScript.player.position, grave.transform.position);
+        //float graveDistance = Vector3.Distance(movementScript.player.position, grave.transform.position);
 
-        float graveVolume = 1f / (graveDistance);
-        graveSource.volume = graveVolume;
+        //float graveVolume = 1f / (graveDistance);
+        //graveSource.volume = graveVolume;
         graveSource = grave.GetComponent<AudioSource>();
         if (gravePlaying)
         {

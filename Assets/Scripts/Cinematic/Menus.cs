@@ -9,6 +9,7 @@ public class Menus : MonoBehaviour
 {
     public FirstPersonMovement movementScript;
     public PlayerCam camScript;
+    public AudioandFX FXscript;
 
     private string thisScene;
     public Image menu;
@@ -86,6 +87,9 @@ public class Menus : MonoBehaviour
     {
         if (isLoading == true)
         {
+            FXscript.rainAudio.Stop();
+            FXscript.bellAudio.Stop();
+            FXscript.rainParticle.Pause();
             textdisplay = true;
             isLoading = false;
             Debug.Log("go");

@@ -92,7 +92,7 @@
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "1c4df2555cc74baf911facee3eb9bb9c"
+                    "m_Id": "fbff14ae7ed2426e95914a899b4f4c55"
                 },
                 "m_SlotId": 0
             }
@@ -100,13 +100,13 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
-                    "m_Id": "429aa56bc8ae479f9dd7cc95bf08b2f4"
+                    "m_Id": "926be5ab082f4a62819753df81d8296f"
                 },
                 "m_SlotId": 0
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "fbff14ae7ed2426e95914a899b4f4c55"
+                    "m_Id": "1c4df2555cc74baf911facee3eb9bb9c"
                 },
                 "m_SlotId": 0
             }
@@ -506,7 +506,7 @@
         "m_SerializableColors": []
     },
     "m_TextureType": 0,
-    "m_NormalMapSpace": 0,
+    "m_NormalMapSpace": 1,
     "m_EnableGlobalMipBias": true,
     "m_MipSamplingMode": 0
 }
