@@ -62,7 +62,7 @@ public class Triggering : MonoBehaviour
 
         if (graveList.Count == 8)
         {
-            Debug.Log("all graves");
+            menuScript.Quit();
         }
     }
 }
