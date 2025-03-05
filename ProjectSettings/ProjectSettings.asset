@@ -12,8 +12,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: Copper Pipe Callum
+  companyName: Ryan Street creative
+  productName: Hell To Pay
   defaultCursor: {fileID: 2800000, guid: ba430d0c8737ce6449860270fd7dd9b7, type: 3}
   cursorHotspot: {x: 1, y: 1}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
