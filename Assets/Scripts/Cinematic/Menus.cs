@@ -16,6 +16,7 @@ public class Menus : MonoBehaviour
     public bool menuDisabled;
     public float menuTimer;
     public GameObject startButton;
+    public GameObject QuitButton;
     public TMP_Text loadingText;
     public bool isLoading;
     private bool textdisplay;
@@ -58,6 +59,7 @@ public class Menus : MonoBehaviour
         menuTimer = 0;
         menuDisabled = true;
         startButton.SetActive(false);
+        QuitButton.SetActive(false);
     }
 
     public void DisableMenu()

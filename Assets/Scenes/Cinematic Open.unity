@@ -283,15 +283,15 @@ RectTransform:
   m_GameObject: {fileID: 86439381}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 200977958}
-  m_Father: {fileID: 1072474035}
+  m_Father: {fileID: 1290800786}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -127.5}
+  m_AnchoredPosition: {x: 490, y: -289}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &86439383
@@ -340,7 +340,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 862020392}
         m_TargetAssemblyTypeName: Menus, Assembly-CSharp
-        m_MethodName: MenuDisabled
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2212,6 +2212,7 @@ MonoBehaviour:
   menuDisabled: 0
   menuTimer: 0
   startButton: {fileID: 1072474034}
+  QuitButton: {fileID: 86439381}
   loadingText: {fileID: 451397636}
   isLoading: 0
   openingScene: 0
@@ -2757,7 +2758,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 471277527}
-  - {fileID: 86439382}
   m_Father: {fileID: 1290800786}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3053,6 +3053,7 @@ RectTransform:
   m_Children:
   - {fileID: 451397634}
   - {fileID: 1072474035}
+  - {fileID: 86439382}
   m_Father: {fileID: 1544572711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3080,7 +3081,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cecbb1c3a23708e41880052861417fc7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 552fd590c963c6542821f21db84cc5f8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9453,7 +9454,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 4599550654961700096, guid: 7072adeba0cf1054c923e5c72f7c214b, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 4100441251094a14dac8d32f7d1122e5, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ae95826723676a54c9bf6492235114ef, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -9750,9 +9751,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 4599550654961700096, guid: 7072adeba0cf1054c923e5c72f7c214b, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 4100441251094a14dac8d32f7d1122e5, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 3890cad1e39dc044c8b20e141912961d, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -9872,9 +9873,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 4599550654961700096, guid: 7072adeba0cf1054c923e5c72f7c214b, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 4100441251094a14dac8d32f7d1122e5, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 647bc6e101098fd449afd86d5c0fb8e3, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.745
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -10260,7 +10261,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 4599550654961700096, guid: 7072adeba0cf1054c923e5c72f7c214b, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 4100441251094a14dac8d32f7d1122e5, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1b0b33efe06d7e748a9d99fff86d3b26, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -10852,7 +10853,7 @@ Transform:
   m_GameObject: {fileID: 2027338318}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -27.36, y: 13, z: -59.03}
+  m_LocalPosition: {x: -27.36, y: 13, z: -75.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

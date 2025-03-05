@@ -2446,6 +2446,7 @@ MonoBehaviour:
   menuDisabled: 0
   menuTimer: 0
   startButton: {fileID: 0}
+  QuitButton: {fileID: 0}
   loadingText: {fileID: 0}
   isLoading: 0
   openingScene: 0
@@ -15136,9 +15137,9 @@ MonoBehaviour:
   - Its all ive ever known, I have no other skills and a huge rap sheet. I dont know
     where to go
   - "I confess that I have: 1:Stolen\u2026"
-  - (and) nothing else
-  - (and) nothing else
-  - (and) nothing else
+  - and nothing else
+  - and nothing else
+  - and nothing else
   - I hope so father, all the stress eats away at me, I need to abandon this life
   - I see tortured visions every time, but Its unavoidable, I dont set out to kill,
     I just dont want to be locked up
