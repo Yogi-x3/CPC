@@ -26,6 +26,7 @@ public class Endings : MonoBehaviour
     public Renderer distortion;
     private float cellTimer;
     private float cells = 1.7f;
+    public AudioSource fireCrack;
 
     [Header("EndScreen")]
     public GameObject endScreen;
@@ -175,6 +176,7 @@ public class Endings : MonoBehaviour
         {
             smokePlaying = true;
             smoke.Play();
+            fireCrack.Play();
         }
         float startCell = 1.7f;
         float maxCell = 5f;
@@ -183,6 +185,7 @@ public class Endings : MonoBehaviour
 
         cells = Mathf.Lerp(startCell, maxCell, cellTimer);
         boothModel.material.SetFloat("_Cell_size", cells);
+        fireCrack.volume = 0.2f * cells;
 
         FXscript.popeBody.material.SetTexture("_Texture2D", FXscript.popeTex[6]);
 

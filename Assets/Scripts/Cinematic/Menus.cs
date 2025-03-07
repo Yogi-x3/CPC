@@ -95,7 +95,7 @@ public class Menus : MonoBehaviour
             textdisplay = true;
             isLoading = false;
             Debug.Log("go");
-            loadingText.text = "loading...";
+            loadingText.text = "LOADING...";
             loadingText.enabled =true;
             movementScript.enabled = false;
             camScript.enabled = false;

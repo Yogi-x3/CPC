@@ -78,7 +78,10 @@ public class UI : MonoBehaviour
                 {
                     if (Input.GetKeyDown(KeyCode.E))
                     {
-                        cinematicMode = true;
+                        if (dialogueScript.dialogueOver == false)
+                        {
+                            cinematicMode = true;
+                        }
                     }
                 }
             }
