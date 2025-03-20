@@ -12,7 +12,7 @@ public class AudioandFX : MonoBehaviour
     public UI uiScript;
     public FirstPersonMovement movementScript;
     public PriestMovement priestMovementScript;
-    public Menus menuScriot;
+    public Menus menuScript;
 
     [Header("Glow")]
     private float glowTimer;
@@ -20,6 +20,8 @@ public class AudioandFX : MonoBehaviour
     public Renderer[] glowModel;
     private bool glowOn;
     private bool glowRun;
+    public GameObject[] boothLights;
+    public GameObject spotLight;
 
     [Header("Fire")]
     public ParticleSystem redFire;
@@ -72,11 +74,15 @@ public class AudioandFX : MonoBehaviour
     void Start()
     {
         policeLight.enabled = false;
+        foreach (GameObject light in boothLights)
+        {
+            light.gameObject.SetActive(false);
+        }
     }
     // Update is called once per frame
     void Update()
     {
-        if (menuScriot.openingScene == true)
+        if (menuScript.openingScene == true)
         {
             Steps();
             BellVolume();
@@ -87,6 +93,7 @@ public class AudioandFX : MonoBehaviour
             Steps();
             FireFX();
             SetAudioVolume();
+            SpotLights();
         }
     }
 
@@ -95,7 +102,7 @@ public class AudioandFX : MonoBehaviour
         //called once the dialogue is finished
         if (!dialogueScript.dialogueOver)
         {
-
+            
             //happy
             if (uiScript.sinMeter < 10)
             {
@@ -336,6 +343,20 @@ public class AudioandFX : MonoBehaviour
         {
             graveSource.Play();
             gravePlaying = false;
+        }
+    }
+    public void SpotLights()
+    {
+        foreach (GameObject light in boothLights)
+        {
+            if (cinematicScript.boothOpen)
+            {
+                light.gameObject.SetActive(true);
+            } else if (dialogueScript.dialogueOver == true)
+            {
+                light.gameObject.SetActive(false);
+                spotLight.SetActive(false);
+            }
         }
     }
 }

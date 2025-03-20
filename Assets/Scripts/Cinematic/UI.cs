@@ -30,6 +30,7 @@ public class UI : MonoBehaviour
     float currentClipLength;
     public bool animationPlayed;
     public bool animationState;
+    public GameObject interactText;
 
     [Header("Sin")]
     public float sinMeter;
@@ -48,6 +49,7 @@ public class UI : MonoBehaviour
         sinMeter = 0f;
         curtain = GameObject.FindGameObjectWithTag("Curtain");
         curtainAnimator = curtain.GetComponent<Animator>();
+        interactText.SetActive(false);
     }
 
     // Update is called once per frame
@@ -65,25 +67,29 @@ public class UI : MonoBehaviour
     {
         //interact with Priest
         RaycastHit hit;
-        float rayDistance = 100f;
+        float rayDistance = 10f;
 
         Debug.DrawRay(cam.transform.position, cam.transform.forward * rayDistance, Color.red);
         //cant be interacted past Yes
-        if (cinematicScript.boothOpen == false)
+        if (cinematicScript.boothOpen == false && dialogueScript.dialogueOver == false)
         {
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, rayDistance))
             {
 
-                if (hit.collider.CompareTag("Pope"))
+                if (hit.collider.CompareTag("Pope") && !cinematicMode)
                 {
+                    interactText.SetActive(true);
                     if (Input.GetKeyDown(KeyCode.E))
                     {
-                        if (dialogueScript.dialogueOver == false)
-                        {
-                            cinematicMode = true;
-                        }
+                        cinematicMode = true;
                     }
+                } else
+                {
+                    interactText.SetActive(false);
                 }
+            } else
+            {
+                interactText.SetActive(false);
             }
         }
 
@@ -172,7 +178,7 @@ public class UI : MonoBehaviour
             //counts down timer while player is answering
             if (!dialogueScript.waitForSpeech)
             {
-                sinTimer += Time.deltaTime;
+                sinTimer += 0.4f * Time.deltaTime;
                 float clampedTime = Mathf.Clamp(sinTimer, 0.0f, 10.0f);
                 //sinTimeBar.enabled = true;
 

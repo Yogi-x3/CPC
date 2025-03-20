@@ -75,13 +75,13 @@ public class Menus : MonoBehaviour
             if (menuTimer < maxTimer)
             {
                 movementScript.enabled = false;
+                camScript.enabled = false;
                 menuTimer += 0.5f * Time.deltaTime;
             } else if (!textdisplay)
             {
                 movementScript.enabled = true;
+                camScript.enabled = true;
             }
-            float menuOpacity = 1 - menuTimer;
-            menu.color = new Color(menu.color.r, menu.color.g, menu.color.b, menuOpacity);
         }
     }
 

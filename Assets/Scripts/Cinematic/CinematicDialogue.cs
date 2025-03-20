@@ -189,7 +189,7 @@ public class CinematicDialogue : MonoBehaviour
 
             float roundedSin = Mathf.Round(calcuatedSin);
 
-            float sinClamp = Mathf.Clamp(roundedSin, 1, 10);
+            float sinClamp = Mathf.Clamp(roundedSin, 1, 20);
 
             if (button.tag == "Good")
             {
