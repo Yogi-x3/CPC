@@ -205,7 +205,6 @@ public class Endings : MonoBehaviour
     {
         endScreen.SetActive(true);
         uiScript.cinematicMode = true;
-        uiScript.sinBarHolder.SetActive(false);
     }
 
     public void Jumpscare()

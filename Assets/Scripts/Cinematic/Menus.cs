@@ -12,11 +12,11 @@ public class Menus : MonoBehaviour
     public AudioandFX FXscript;
 
     private string thisScene;
-    public Image menu;
     public bool menuDisabled;
     public float menuTimer;
     public GameObject startButton;
     public GameObject QuitButton;
+    public GameObject logo;
     public TMP_Text loadingText;
     public bool isLoading;
     private bool textdisplay;
@@ -60,6 +60,7 @@ public class Menus : MonoBehaviour
         menuDisabled = true;
         startButton.SetActive(false);
         QuitButton.SetActive(false);
+        logo.SetActive(false);
     }
 
     public void DisableMenu()

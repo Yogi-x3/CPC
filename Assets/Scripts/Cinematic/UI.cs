@@ -31,6 +31,7 @@ public class UI : MonoBehaviour
     public bool animationPlayed;
     public bool animationState;
     public GameObject interactText;
+    public GameObject RMBtext;
 
     [Header("Sin")]
     public float sinMeter;
@@ -50,6 +51,7 @@ public class UI : MonoBehaviour
         curtain = GameObject.FindGameObjectWithTag("Curtain");
         curtainAnimator = curtain.GetComponent<Animator>();
         interactText.SetActive(false);
+        RMBtext.SetActive(false);
     }
 
     // Update is called once per frame
@@ -135,12 +137,14 @@ public class UI : MonoBehaviour
             if (FOVtimer > FOVwaitTime)
             {
                 FOVtimer = FOVwaitTime;
+                RMBtext.SetActive(true);
             }
 
         }
 
         else
         {
+            RMBtext.SetActive(false);
             FOVtimer -= 2 * Time.deltaTime;
 
             if (FOVtimer < 0)
@@ -164,7 +168,7 @@ public class UI : MonoBehaviour
     public void SinBars()
     {
         //cant change sin before confessing so uneeded to run
-        if (cinematicScript.isConfessing)
+        if (cinematicScript.isConfessing && !dialogueScript.dialogueOver)
         {
             sinTimeBar.SetActive(true);
             sinBarHolder.SetActive(true);
