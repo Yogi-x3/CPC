@@ -14,6 +14,8 @@ public class Triggering : MonoBehaviour
     public AudioandFX FXscript;
 
     public List<GameObject> graveList;
+    public GameObject desecratorText;
+    private int desecratorInt;
     // Start is called before the first frame update
     void OnTriggerEnter(Collider other)
     {
@@ -62,6 +64,9 @@ public class Triggering : MonoBehaviour
 
         if (graveList.Count == 8)
         {
+            menuScript.desecratorInt = 1;
+            PlayerPrefs.SetInt("desecrator", menuScript.desecratorInt);
+            PlayerPrefs.Save();
             menuScript.Quit();
         }
     }

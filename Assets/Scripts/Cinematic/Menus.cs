@@ -21,10 +21,17 @@ public class Menus : MonoBehaviour
     public bool isLoading;
     private bool textdisplay;
 
+    public GameObject desecratorText;
+    public int desecratorInt;
+
     public bool openingScene;
     // Start is called before the first frame update
     void Start()
     {
+        if (PlayerPrefs.HasKey("desecrator"))
+        {
+            desecratorInt = PlayerPrefs.GetInt("desecrator");
+        }
         thisScene = SceneManager.GetActiveScene().name;
         Debug.Log(thisScene);
         isLoading = false;
@@ -47,6 +54,14 @@ public class Menus : MonoBehaviour
         {
             DisableMenu();
             StartCoroutine(LoadCinematic());
+        }
+
+        if (desecratorInt == 1)
+        {
+            desecratorText.SetActive(true);
+        } else
+        {
+            desecratorText.SetActive(false);
         }
     }
     public void Restart()
@@ -110,5 +125,12 @@ public class Menus : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void Sorry()
+    {
+        desecratorInt =  0;
+        PlayerPrefs.SetInt("desecrator", desecratorInt);
+        PlayerPrefs.Save();
     }
 }
