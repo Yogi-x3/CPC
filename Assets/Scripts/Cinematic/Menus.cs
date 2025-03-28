@@ -10,6 +10,7 @@ public class Menus : MonoBehaviour
     public FirstPersonMovement movementScript;
     public PlayerCam camScript;
     public AudioandFX FXscript;
+    public CinematicDialogue dialogueScript;
 
     private string thisScene;
     public bool menuDisabled;
@@ -23,18 +24,19 @@ public class Menus : MonoBehaviour
 
     public GameObject desecratorText;
     public int desecratorInt;
+    public TMP_Text counterText;
+    public GameObject counter;
+    public int counterInt;
 
     public bool openingScene;
     // Start is called before the first frame update
     void Start()
     {
-        if (PlayerPrefs.HasKey("desecrator"))
-        {
-            desecratorInt = PlayerPrefs.GetInt("desecrator");
-        }
+        PlayerPrefsCheck();
         thisScene = SceneManager.GetActiveScene().name;
         Debug.Log(thisScene);
         isLoading = false;
+
 
         if (thisScene == "Cinematic Open")
         {
@@ -43,6 +45,13 @@ public class Menus : MonoBehaviour
 
         if (thisScene == "Cinematic")
         {
+            if (counterInt == 5)
+            {
+                dialogueScript.alternateDialogue = true;
+            } else
+            {
+                dialogueScript.alternateDialogue = false;
+            }
             menuDisabled = true;
             openingScene= false;
         }
@@ -52,6 +61,7 @@ public class Menus : MonoBehaviour
     {
         if (thisScene == "Cinematic Open")
         {
+            counterText.text = "Endings: " + counterInt.ToString() + "/5";
             DisableMenu();
             StartCoroutine(LoadCinematic());
         }
@@ -71,6 +81,7 @@ public class Menus : MonoBehaviour
 
     public void MenuDisabled()
     {
+        counter.SetActive(false);
         menuTimer = 0;
         menuDisabled = true;
         startButton.SetActive(false);
@@ -132,5 +143,50 @@ public class Menus : MonoBehaviour
         desecratorInt =  0;
         PlayerPrefs.SetInt("desecrator", desecratorInt);
         PlayerPrefs.Save();
+    }
+    
+    public void ResetCounter()
+    {
+        PlayerPrefs.DeleteKey("Neutral");
+        PlayerPrefs.DeleteKey("Absolved");
+        PlayerPrefs.DeleteKey("Guilt");
+        PlayerPrefs.DeleteKey("Police");
+        PlayerPrefs.DeleteKey("Damnation");
+        counterInt = 0;
+        PlayerPrefs.Save();
+    }
+
+    private void PlayerPrefsCheck()
+    {
+        counterInt = 0;
+        if (PlayerPrefs.HasKey("desecrator"))
+        {
+            desecratorInt = PlayerPrefs.GetInt("desecrator");
+        }
+
+        if (PlayerPrefs.HasKey("Guilt"))
+        {
+            counterInt += 1;
+        }
+
+        if (PlayerPrefs.HasKey("Absolved"))
+        {
+            counterInt += 1;
+        }
+
+        if (PlayerPrefs.HasKey("Damnation"))
+        {
+            counterInt += 1;
+        }
+
+        if (PlayerPrefs.HasKey("Neutral"))
+        {
+            counterInt += 1;
+        }
+
+        if (PlayerPrefs.HasKey("Police"))
+        {
+            counterInt += 1;
+        }
     }
 }

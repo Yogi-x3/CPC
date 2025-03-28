@@ -83,6 +83,7 @@ public class UI : MonoBehaviour
                     interactText.SetActive(true);
                     if (Input.GetKeyDown(KeyCode.E))
                     {
+                        dialogueScript.PriestSpeech.Play();
                         cinematicMode = true;
                     }
                 } else

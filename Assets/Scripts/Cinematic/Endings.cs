@@ -116,6 +116,13 @@ public class Endings : MonoBehaviour
 
     public void Absolved()
     {
+        if (PlayerPrefs.HasKey("Absolved"))
+        {
+
+        } else 
+        {
+            PlayerPrefs.SetInt("Absolved", 1);
+        }
         FXscript.mixerInt = 2;
         cinematicScript.isConfessing = false;
         postScript.Absolved();
@@ -132,6 +139,14 @@ public class Endings : MonoBehaviour
 
     public void Police()
     {
+        if (PlayerPrefs.HasKey("Police"))
+        {
+
+        }
+        else
+        {
+            PlayerPrefs.SetInt("Police", 1);
+        }
         endScreenText.text = "POLICE";
         if (!FXscript.lightChanging)
         {
@@ -143,6 +158,14 @@ public class Endings : MonoBehaviour
 
     public void Neutral()
     {
+        if (PlayerPrefs.HasKey("Neutral"))
+        {
+
+        }
+        else
+        {
+            PlayerPrefs.SetInt("Neutral", 1);
+        }
         FXscript.policeLight.color = Color.white;
         endScreenText.text = "NEUTRAL";
         aud = 2;
@@ -151,6 +174,14 @@ public class Endings : MonoBehaviour
 
     public void Guilt()
     {
+        if (PlayerPrefs.HasKey("Guilt"))
+        {
+
+        }
+        else
+        {
+            PlayerPrefs.SetInt("Guilt", 1);
+        }
         FXscript.mixerInt = 1;
         
         //FXscript.endingAudio.outputAudioMixerGroup = FXscript.mixerGroups[1];
@@ -167,6 +198,14 @@ public class Endings : MonoBehaviour
     //enable heat disotortion and increase distortion and cell size over time, until a max point
     void Damnation()
     {
+        if (PlayerPrefs.HasKey("Damnation"))
+        {
+
+        }
+        else
+        {
+            PlayerPrefs.SetInt("Damnation", 1);
+        }
         postScript.Damnation();
         endScreenText.text = "DAMNATION";
         aud = 4;
@@ -205,6 +244,7 @@ public class Endings : MonoBehaviour
     {
         endScreen.SetActive(true);
         uiScript.cinematicMode = true;
+        PlayerPrefs.Save();
     }
 
     public void Jumpscare()

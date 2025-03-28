@@ -23,6 +23,18 @@ public class CinematicDialogue : MonoBehaviour
     public string[] dialogue;
     public string[] dialogue2;
     public string[] dialogue3;
+
+    public AudioClip[] audioDialogue;
+    public AudioClip[] audioDialogue2;
+    public AudioClip[] audioDialogue3;
+
+    public AudioClip[] alternateAudioDialogue;
+    public AudioClip[] alternateAudioDialogue2;
+    public AudioClip[] alternateAudioDialogue3;
+
+    public bool alternateDialogue;
+    public AudioSource PriestSpeech;
+
     private int dtrack;
     public int d = 0;
     public int dLimit = 17;
@@ -50,7 +62,9 @@ public class CinematicDialogue : MonoBehaviour
     {
         dtrack = 1;
         confessedMurder = false;
+        PriestSpeech.Stop();
     }
+
 
     public void DialogueManager()
     {
@@ -60,10 +74,26 @@ public class CinematicDialogue : MonoBehaviour
             dialogueObject.text = dialogue[d];
             badText.text = badDialogue[bd];
             goodText.text = goodDialogue[gd];
+
+            if (alternateDialogue == false) 
+            {
+                PriestSpeech.clip = audioDialogue[d];
+            } else
+            {
+                PriestSpeech.clip =alternateAudioDialogue[d];
+            }
         }
         //use second set of dialogue unless the dialgoue is blank, then use first set
         if (dtrack == 2)
         {
+            if (alternateDialogue == false)
+            {
+                PriestSpeech.clip = audioDialogue2[d];
+            }
+            else
+            {
+                PriestSpeech.clip = alternateAudioDialogue2[d];
+            }
             dialogueObject.text = dialogue2[d];
 
            
@@ -89,6 +119,14 @@ public class CinematicDialogue : MonoBehaviour
         //use third set of dialogue
         if (dtrack == 3)
         {
+            if (alternateDialogue == false)
+            {
+                PriestSpeech.clip = audioDialogue3[d];
+            }
+            else
+            {
+                PriestSpeech.clip = alternateAudioDialogue3[d];
+            }
             dialogueObject.text = dialogue3[d];
         }
         //dont allow speech to go above limit
@@ -110,6 +148,7 @@ public class CinematicDialogue : MonoBehaviour
     //set pope transform start point and progress dialogue
     public void Yes()
     {
+        StartCoroutine(AudioDelay());
         waitForSpeech = true;
         uiScript.popeAnimation.SetBool("Yes", true);
         d = 1;
@@ -206,6 +245,7 @@ public class CinematicDialogue : MonoBehaviour
             bd++;
             d++;
 
+            StartCoroutine(AudioDelay());
             if (button.tag == "Bad")
             {
                 //if bad option, check whether pope dialgoue is empty
@@ -248,7 +288,15 @@ public class CinematicDialogue : MonoBehaviour
     public IEnumerator SpeechDelay()
     {
         waitForSpeech = true;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2.9f);
         waitForSpeech = false;
+    }
+
+    public IEnumerator AudioDelay()
+    {
+        PriestSpeech.Stop();
+        waitForSpeech = true;
+        yield return new WaitForSeconds(0.1f);
+        PriestSpeech.Play();
     }
 }
