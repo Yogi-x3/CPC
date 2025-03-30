@@ -3667,8 +3667,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementScript: {fileID: 0}
   camScript: {fileID: 0}
-  FXscript: {fileID: 0}
+  FXscript: {fileID: 1544572713}
   dialogueScript: {fileID: 1544572714}
+  uiScript: {fileID: 0}
   menuDisabled: 0
   menuTimer: 0
   startButton: {fileID: 0}
@@ -3676,9 +3677,11 @@ MonoBehaviour:
   logo: {fileID: 0}
   loadingText: {fileID: 0}
   isLoading: 0
+  pauseMenu: {fileID: 0}
   desecratorText: {fileID: 219353467}
   desecratorInt: 0
   counterText: {fileID: 0}
+  counter: {fileID: 0}
   counterInt: 0
   openingScene: 0
 --- !u!1 &863142123
@@ -8922,8 +8925,10 @@ MonoBehaviour:
   uiScript: {fileID: 1544572716}
   movementScript: {fileID: 728732049}
   menuScript: {fileID: 862020392}
-  sensX: 400
-  sensY: 400
+  sensX: 50
+  sensY: 50
+  sliderValue: 0
+  sensSlider: {fileID: 0}
 --- !u!1 &976695802
 GameObject:
   m_ObjectHideFlags: 0
@@ -16501,13 +16506,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
+  - {fileID: 8300000, guid: e272208bfa480ad409be35dc3911d2be, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
-  - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
-  - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
+  - {fileID: 8300000, guid: ddc1fb73e688d2044bc6310cabe0f89b, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
@@ -16558,14 +16563,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
+  - {fileID: 8300000, guid: 8d5a92e90eba0ae44a5bfdad5e148bc5, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
-  - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
-  - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
+  - {fileID: 8300000, guid: 981621b063ec4ed4f8319a7e506fa207, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
   - {fileID: 8300000, guid: 2132724d3f8802045b8a6f4017e0a5b4, type: 3}
@@ -16677,6 +16682,7 @@ MonoBehaviour:
   distortion: {fileID: 1803461446}
   fireCrack: {fileID: 730557925}
   endScreen: {fileID: 1290800785}
+  gameOver: 0
   endScreenText: {fileID: 451397636}
   boothModel: {fileID: 730557924}
   endingdCollider: {fileID: 642940845}

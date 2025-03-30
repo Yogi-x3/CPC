@@ -2813,8 +2813,8 @@ MonoBehaviour:
   uiScript: {fileID: 1544572716}
   movementScript: {fileID: 728732049}
   menuScript: {fileID: 862020392}
-  sensX: 400
-  sensY: 400
+  sensX: 50
+  sensY: 50
 --- !u!4 &977049669 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c7365e4ea3f8bba46bbd29521f11cc86, type: 3}
@@ -9772,6 +9772,7 @@ MonoBehaviour:
   distortion: {fileID: 0}
   fireCrack: {fileID: 0}
   endScreen: {fileID: 1290800785}
+  gameOver: 0
   endScreenText: {fileID: 451397636}
   boothModel: {fileID: 0}
   endingdCollider: {fileID: 0}
@@ -10055,9 +10056,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 4599550654961700096, guid: 7072adeba0cf1054c923e5c72f7c214b, type: 2}
-  m_audioClip: {fileID: 8300000, guid: ae95826723676a54c9bf6492235114ef, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 949e28d42f281d147830c23308bdb382, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -10251,7 +10252,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 4599550654961700096, guid: 7072adeba0cf1054c923e5c72f7c214b, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 3890cad1e39dc044c8b20e141912961d, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 2f5fba0db46b28148a3ccf4c715a5b04, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1

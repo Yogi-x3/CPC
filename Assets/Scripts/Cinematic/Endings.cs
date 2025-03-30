@@ -30,6 +30,7 @@ public class Endings : MonoBehaviour
 
     [Header("EndScreen")]
     public GameObject endScreen;
+    public bool gameOver;
     public TMP_Text endScreenText;
     public Renderer boothModel;
     private int aud;
@@ -242,6 +243,7 @@ public class Endings : MonoBehaviour
     //delay to end screen to allow player time to process
     public void EndScreen()
     {
+        gameOver = true;
         endScreen.SetActive(true);
         uiScript.cinematicMode = true;
         PlayerPrefs.Save();

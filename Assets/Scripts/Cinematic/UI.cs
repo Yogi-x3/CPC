@@ -135,7 +135,7 @@ public class UI : MonoBehaviour
             FOVtimer += Time.deltaTime;
             float FOVwaitTime = 1f;
 
-            if (FOVtimer > FOVwaitTime)
+            if (FOVtimer > FOVwaitTime && endingScript.gameOver != true)
             {
                 FOVtimer = FOVwaitTime;
                 RMBtext.SetActive(true);
