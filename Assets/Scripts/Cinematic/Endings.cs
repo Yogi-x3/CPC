@@ -15,6 +15,7 @@ public class Endings : MonoBehaviour
     public UI uiScript;
     public PostFX postScript;
     public FirstPersonMovement movementScript;
+    public Menus menuScript;
 
     [Header("Smoke")]
     public GameObject smokeObject;
@@ -75,6 +76,7 @@ public class Endings : MonoBehaviour
     //calculate ending to play based on Sin levels
     public void EndingSequences()
     {
+        menuScript.Sorry();
         endingPlane.material.SetColor("_Color", Color.white);
         endingPlane.material.SetColor("_Emmision", Color.white);
         endingdCollider.isTrigger = true;

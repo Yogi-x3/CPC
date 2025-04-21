@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerCam : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class PlayerCam : MonoBehaviour
     public float sensX;
     public float sensY;
 
+    public Slider sensSlider;
+
     [Header("Rotation")]
     private Transform orientation;
     float xRotation;
@@ -24,7 +27,8 @@ public class PlayerCam : MonoBehaviour
     void Start()
     {
         orientation = movementScript.player;
-}
+        sensSlider.value = PlayerPrefs.GetFloat("sensitivity");
+    }
 
     // Update is called once per frame
     void Update()
@@ -37,8 +41,8 @@ public class PlayerCam : MonoBehaviour
         }
         else if (!uiScript.cinematicMode || Input.GetMouseButton(1))
         {
-            float mouseX = Input.GetAxisRaw("MouseX") * Time.deltaTime * sensX;
-            float mouseY = Input.GetAxisRaw("MouseY") * Time.deltaTime * sensY;
+            float mouseX = Input.GetAxisRaw("MouseX") * Time.deltaTime * sensX * sensSlider.value;
+            float mouseY = Input.GetAxisRaw("MouseY") * Time.deltaTime * sensY * sensSlider.value;
 
             yRotation += mouseX;
 
@@ -53,11 +57,20 @@ public class PlayerCam : MonoBehaviour
             Cursor.visible = false;
         }
 
-        if (!menuScript.menuDisabled)
+        if (!menuScript.menuDisabled || !menuScript.notPaused)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
+
+
+
     }   
+
+    public void SetSens()
+    {
+        PlayerPrefs.SetFloat("sensitivity", sensSlider.value);
+        PlayerPrefs.Save();
+    }
 
 }

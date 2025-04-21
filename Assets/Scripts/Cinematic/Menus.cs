@@ -21,6 +21,9 @@ public class Menus : MonoBehaviour
     public TMP_Text loadingText;
     public bool isLoading;
     private bool textdisplay;
+    public bool notPaused;
+    public GameObject pauseMenu;
+    public AudioListener audio;
 
     public GameObject desecratorText;
     public int desecratorInt;
@@ -36,6 +39,7 @@ public class Menus : MonoBehaviour
         thisScene = SceneManager.GetActiveScene().name;
         Debug.Log(thisScene);
         isLoading = false;
+        notPaused = true;
 
 
         if (thisScene == "Cinematic Open")
@@ -72,6 +76,11 @@ public class Menus : MonoBehaviour
         } else
         {
             desecratorText.SetActive(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Pause();
         }
     }
     public void Restart()
@@ -131,6 +140,25 @@ public class Menus : MonoBehaviour
             SceneManager.LoadScene("Cinematic");
 
         }
+    }
+
+    public void Pause()
+    {
+        notPaused = !notPaused;
+        if (!notPaused)
+        {
+            audio.enabled = false;
+            pauseMenu.SetActive(true);
+            Time.timeScale = 0;
+        }
+
+        if (notPaused)
+        {
+            audio.enabled = true;
+            pauseMenu.SetActive(false);
+            Time.timeScale = 1;
+        }
+        
     }
 
     public void Quit()

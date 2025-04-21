@@ -230,14 +230,18 @@ public class CinematicDialogue : MonoBehaviour
 
             float sinClamp = Mathf.Clamp(roundedSin, 1, 20);
 
-            if (button.tag == "Good")
+            if (d < 15)
             {
-                uiScript.actualSin -= sinClamp;
-            }
 
-            if (button.tag == "Bad")
-            {
-                uiScript.actualSin += sinClamp;
+                if (button.tag == "Good")
+                {
+                    uiScript.actualSin -= sinClamp;
+                }
+
+                if (button.tag == "Bad")
+                {
+                    uiScript.actualSin += sinClamp;
+                }
             }
 
             //progress dialogue
