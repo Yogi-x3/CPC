@@ -81,7 +81,7 @@ public class UI : MonoBehaviour
                 if (hit.collider.CompareTag("Pope") && !cinematicMode)
                 {
                     interactText.SetActive(true);
-                    if (Input.GetKeyDown(KeyCode.E))
+                    if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
                     {
                         dialogueScript.PriestSpeech.Play();
                         cinematicMode = true;

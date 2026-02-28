@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class FirstPersonMovement : MonoBehaviour
 {
@@ -22,6 +23,9 @@ public class FirstPersonMovement : MonoBehaviour
     public AudioClip[] playerSounds;
     private bool isWalking;
 
+    [Header("Joystick")]
+    Vector2 moveVector;
+
     
     // Start is called before the first frame update
     void Start()
@@ -39,11 +43,12 @@ public class FirstPersonMovement : MonoBehaviour
             MyInput();
             SpeedControl();
             playerRb.drag = groundDrag;
-
         }
 
         //Steps();
-
+        Vector3 movement = new Vector3(moveVector.x, 0, moveVector.y);
+        movement.Normalize();
+        transform.Translate(moveSpeed * movement * Time.deltaTime);
     }
 
     void FixedUpdate()
@@ -57,7 +62,7 @@ public class FirstPersonMovement : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
     }
 
-    private void MovePlayer()
+    public void MovePlayer()
     {
         movementDir = player.forward *verticalInput + player.right * horizontalInput;
 
@@ -77,5 +82,10 @@ public class FirstPersonMovement : MonoBehaviour
 
 
 
+    }
+
+    public void InputPlayer(InputAction.CallbackContext _context)
+    {
+        moveVector = _context.ReadValue<Vector2>();
     }
 }
